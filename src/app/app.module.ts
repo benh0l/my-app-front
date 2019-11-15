@@ -6,16 +6,16 @@ import { MatCardModule, MatToolbarModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { TeamComponent } from './team/team.component';
 import { HomeComponent } from './home/home.component';
-import { PlayerComponent } from './player/player.component';
+import { StudentComponent } from './student/student.component';
+import { GroupComponent } from './group/group.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TeamComponent,
     HomeComponent,
-    PlayerComponent
+    StudentComponent,
+    GroupComponent
   ],
   imports: [
     BrowserModule,
