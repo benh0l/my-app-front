@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import {Observable} from 'rxjs';
-import { defaultIfEmpty, filter, map } from 'rxjs/operators';
+import {Observable, from, forkJoin} from 'rxjs';
+import { defaultIfEmpty, filter, mergeMap } from 'rxjs/operators';
 import {Lesson} from '../interfaces/lesson';
 import {BackendService} from './backend.service';
 
@@ -21,6 +21,12 @@ export class LessonsService {
 
   fetchOne(id: string): Observable<Lesson> {
     return this._http.get<Lesson>(this._backendService.URL.oneLesson.replace(':id', id));
+  }
+
+  fetchMultiple(ids: string[]): Observable<Lesson[]> {
+    return forkJoin(from(ids).pipe(
+      mergeMap( id => this.fetchOne(id))
+    ));
   }
 
   create(lesson: Lesson): Observable<any> {

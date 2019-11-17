@@ -22,6 +22,7 @@ import { GroupComponent } from './group/group.component';
 import { GroupsComponent } from './groups/groups.component';
 import { LessonComponent } from './lesson/lesson.component';
 import {BackendService} from './shared/services/backend.service';
+import { LessonsComponent } from './lessons/lessons.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {BackendService} from './shared/services/backend.service';
     StudentComponent,
     GroupComponent,
     GroupsComponent,
-    LessonComponent
+    LessonComponent,
+    LessonsComponent
   ],
   imports: [
     BrowserModule,

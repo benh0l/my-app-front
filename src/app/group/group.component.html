@@ -42,3 +42,8 @@
     </p>
   </form>
 </section>
+
+<section>
+  <app-lessons *ngIf="!!lessons" [lessons]="lessons">
+  </app-lessons>
+</section>
