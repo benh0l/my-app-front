@@ -1,1 +1,44 @@
-<p>group works!</p>
+<section>
+  <form novalidate [formGroup]="form">
+
+    <p>
+      <mat-form-field class="full-width" [class.mgb15]="form.get('name').dirty && form.get('name').invalid">
+        <input matInput placeholder="Name" formControlName="name" minlength="3" required name="name" />
+        <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('required')">
+          Name is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('minlength')">
+          Name is <strong>3 chars min</strong>
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" required name="startDate" placeholder="Choisissez une date de début">
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+        <mat-error *ngIf="form.get('startDate').dirty && form.get('startDate').hasError('required')">
+          Start date is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="!form.get('startDate').hasError('required') && form.errors?.endBeforeStart">
+          Start date cannot be after end date
+        </mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required name="endDate" placeholder="Choisissez une date de fin">
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+        <mat-error *ngIf="form.get('endDate').dirty && form.get('endDate').hasError('required')">
+          End date is <strong>required</strong>
+        </mat-error>
+        <mat-error *ngIf="!form.get('endDate').hasError('required') && form.errors?.endBeforeStart">
+          End date cannot be before start date
+        </mat-error>
+      </mat-form-field>
+    </p>
+  </form>
+</section>

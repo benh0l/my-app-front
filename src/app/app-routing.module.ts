@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'groups', component: GroupsComponent },
+  { path: 'group/:id', component: GroupComponent },
   { path: 'student/:id', component: StudentComponent }
 ];
 

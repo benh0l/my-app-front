@@ -3,8 +3,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
-import { MatCardModule, MatToolbarModule, MatFormFieldModule, MatTableModule, MatInputModule } from '@angular/material';
+import {
+  MatCardModule,
+  MatToolbarModule,
+  MatFormFieldModule,
+  MatTableModule,
+  MatInputModule,
+  MatButtonModule,
+  MatIconModule, MatDatepickerModule, MatNativeDateModule
+} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -27,11 +36,16 @@ import {BackendService} from './shared/services/backend.service';
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatButtonModule,
+    MatIconModule,
     MatTableModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     AppRoutingModule
   ],
   providers: [BackendService],

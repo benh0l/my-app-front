@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import { Group } from '../shared/interfaces/group';
 import {Router} from '@angular/router';
+import { of } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import {GroupsService} from '../shared/services/groups.service';
 
 @Component({
@@ -33,5 +35,13 @@ export class GroupsComponent implements OnInit {
 
   applyFilter(filterValue: string){
     this._dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  goToGroup(groupId: string){
+    of(groupId)
+      .pipe(
+        filter(_ => !!_)
+      )
+      .subscribe(_ => this._router.navigate(['/group', _]));
   }
 }

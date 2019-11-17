@@ -8,9 +8,6 @@ import {BackendService} from './backend.service';
 
 @Injectable()
 export class LessonsService {
-  // private property to store all backend URLs
-  private readonly _backendURL: any;
-
   constructor(private _http: HttpClient, private _backendService: BackendService) {
   }
 
