@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {MatTableDataSource} from '@angular/material';
+import {MatTableDataSource} from '@angular/material/table';
 import { Group } from '../shared/interfaces/group';
 import {Router} from '@angular/router';
 import {GroupsService} from '../shared/services/groups.service';
