@@ -4,29 +4,18 @@ import { environment } from '../../../environments/environment';
 import {Observable} from 'rxjs';
 import { defaultIfEmpty, filter, map } from 'rxjs/operators';
 import {Group} from '../interfaces/group';
+import {BackendService} from './backend.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class GroupsService {
   // private property to store all backend URLs
   private readonly _backendURL: any;
 
-  constructor(private _http: HttpClient) {
-    this._backendURL = {};
-
-    // build backend base url
-    let baseUrl = `${environment.backend.protocol}://${environment.backend.host}`;
-    if (environment.backend.port) {
-      baseUrl += `:${environment.backend.port}`;
-
-      // build all backend urls
-      Object.keys(environment.backend.endpoints).forEach(k => this._backendURL[k] = `${baseUrl}${environment.backend.endpoints[k]}`);
-    }
+  constructor(private _http: HttpClient, private _backendService: BackendService) {
   }
 
   fetch(): Observable<Group[]>{
-    return this._http.get<Group[]>(this._backendURL.allGroup)
+    return this._http.get<Group[]>(this._backendService.URL.allGroup)
       .pipe(
         filter(_ => !!_),
         defaultIfEmpty([])
@@ -34,15 +23,15 @@ export class GroupsService {
   }
 
   fetchOne(id: string): Observable<Group> {
-    return this._http.get<Group>(this._backendURL.oneGroup.replace(':id', id));
+    return this._http.get<Group>(this._backendService.URL.oneGroup.replace(':id', id));
   }
 
   create(group: Group): Observable<any> {
-    return this._http.post<Group>(this._backendURL.allPeople, group, this._options());
+    return this._http.post<Group>(this._backendService.URL.allGroup, group, this._options());
   }
 
   update(group: Group): Observable<any> {
-    return this._http.put<Group>(this._backendURL.onePeople.replace(':id', group.id), group, this._options());
+    return this._http.put<Group>(this._backendService.URL.oneGroup.replace(':id', group.id), group, this._options());
   }
 
   private _options(headerList: object = {}): any {

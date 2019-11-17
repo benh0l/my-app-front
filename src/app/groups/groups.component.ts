@@ -7,12 +7,12 @@ import {GroupsService} from '../shared/services/groups.service';
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
-  styleUrls: ['./groups.component.css']
+  styleUrls: ['./groups.component.css'],
+  providers: [GroupsService]
 })
 export class GroupsComponent implements OnInit {
   private _groups: Group[];
   private _dataSource: MatTableDataSource<Group>;
-  private _view: string;
 
   constructor(private _router: Router, private _groupsService: GroupsService) {
     this._groups = [];

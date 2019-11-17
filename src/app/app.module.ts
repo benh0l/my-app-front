@@ -11,6 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { StudentComponent } from './student/student.component';
 import { GroupComponent } from './group/group.component';
 import { GroupsComponent } from './groups/groups.component';
+import { LessonComponent } from './lesson/lesson.component';
+import {BackendService} from './shared/services/backend.service';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { GroupsComponent } from './groups/groups.component';
     HomeComponent,
     StudentComponent,
     GroupComponent,
-    GroupsComponent
+    GroupsComponent,
+    LessonComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,7 @@ import { GroupsComponent } from './groups/groups.component';
     MatTableModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [BackendService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
