@@ -10,17 +10,9 @@ import {GroupsService} from '../shared/services/groups.service';
   styleUrls: ['./groups.component.css']
 })
 export class GroupsComponent implements OnInit {
-  public readonly DISPLAYED_COLUMNS: string[] = [
-    'id',
-    'name',
-    'startDate',
-    'endDate',
-    'studentsId',
-    'responsibleId',
-    'lessonsId'
-  ]
   private _groups: Group[];
   private _dataSource: MatTableDataSource<Group>;
+  private _view: string;
 
   constructor(private _router: Router, private _groupsService: GroupsService) {
     this._groups = [];
@@ -31,9 +23,12 @@ export class GroupsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._dataSource = new MatTableDataSource<Group>();
     this._groupsService
-      .fetch().subscribe((groups: Group[]) => this._groups = groups);
-    this._dataSource = new MatTableDataSource<Group>(this._groups);
+      .fetch().subscribe((groups: Group[]) => this._groups = groups,
+      () => {},
+      () => { this._dataSource.data = this._groups; }
+      );
   }
 
   applyFilter(filterValue: string){
