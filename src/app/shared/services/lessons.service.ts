@@ -4,27 +4,18 @@ import { environment } from '../../../environments/environment';
 import {Observable} from 'rxjs';
 import { defaultIfEmpty, filter, map } from 'rxjs/operators';
 import {Lesson} from '../interfaces/lesson';
+import {BackendService} from './backend.service';
 
 @Injectable()
 export class LessonsService {
   // private property to store all backend URLs
   private readonly _backendURL: any;
 
-  constructor(private _http: HttpClient) {
-    this._backendURL = {};
-
-    // build backend base url
-    let baseUrl = `${environment.backend.protocol}://${environment.backend.host}`;
-    if (environment.backend.port) {
-      baseUrl += `:${environment.backend.port}`;
-
-      // build all backend urls
-      Object.keys(environment.backend.endpoints).forEach(k => this._backendURL[k] = `${baseUrl}${environment.backend.endpoints[k]}`);
-    }
+  constructor(private _http: HttpClient, private _backendService: BackendService) {
   }
 
   fetch(): Observable<Lesson[]>{
-    return this._http.get<Lesson[]>(this._backendURL.allLesson)
+    return this._http.get<Lesson[]>(this._backendService.URL.allLesson)
       .pipe(
         filter(_ => !!_),
         defaultIfEmpty([])
@@ -32,15 +23,15 @@ export class LessonsService {
   }
 
   fetchOne(id: string): Observable<Lesson> {
-    return this._http.get<Lesson>(this._backendURL.oneLesson.replace(':id', id));
+    return this._http.get<Lesson>(this._backendService.URL.oneLesson.replace(':id', id));
   }
 
   create(lesson: Lesson): Observable<any> {
-    return this._http.post<Lesson>(this._backendURL.allLesson, lesson, this._options());
+    return this._http.post<Lesson>(this._backendService.URL.allLesson, lesson, this._options());
   }
 
   update(lesson: Lesson): Observable<any> {
-    return this._http.put<Lesson>(this._backendURL.oneLesson.replace(':id', lesson.id), lesson, this._options());
+    return this._http.put<Lesson>(this._backendService.URL.oneLesson.replace(':id', lesson.id), lesson, this._options());
   }
 
   private _options(headerList: object = {}): any {
