@@ -1,1 +1,66 @@
-<p>lesson works!</p>
+<section>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Lesson information</mat-card-title>
+      <mat-card-subtitle><span *ngIf="isCreated" class="">#{{lesson.id}}</span></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form novalidate [formGroup]="form">
+        <mat-grid-list cols="2" rowHeight="100px">
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field class="full-width" [class.mgb15]="form.get('name').dirty && form.get('name').invalid">
+              <input matInput placeholder="Name" formControlName="name" minlength="3" required name="name" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('required')">
+                Name is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('minlength')">
+                Name is <strong>3 chars min</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field class="full-width" [class.mgb15]="form.get('name').dirty && form.get('name').invalid">
+              <input matInput placeholder="TeacherId" formControlName="teacherId" required name="teacherId" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('teacherId').dirty && form.get('teacherId').hasError('required')">
+                TeacherId is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field>
+              <input matInput placeholder="GroupId" formControlName="groupId" required name="groupId" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('groupId').dirty && form.get('groupId').hasError('required')">
+                GroupId is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button *ngIf="!isEditing" mat-fab (click)="isEditing = true">
+        <mat-icon svgIcon="icon-edit" aria-hidden="false" aria-label="Edit"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing" mat-fab (click)="save(form.value);">
+        <mat-icon svgIcon="icon-check" aria-hidden="false" aria-label="Confirm"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing && isCreated" mat-fab (click)="cancel();">
+        <mat-icon svgIcon="icon-close" aria-hidden="false" aria-label="Cancel"></mat-icon>
+      </button>
+    </mat-card-actions>
+    <mat-card-header>
+      <mat-card-title>Tests</mat-card-title>
+    </mat-card-header>
+    <!--
+    <mat-card-content>
+      <app-test *ngIf="!!tests" [tests]="tests"></app-test>
+    </mat-card-content>
+    -->
+  </mat-card>
+</section>

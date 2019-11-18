@@ -14,7 +14,9 @@ export const environment = {
       allLesson: '/lesson',
       oneLesson: '/lesson/:id',
       allUser: '/user',
-      oneUser: '/user'
+      oneUser: '/user',
+      allTest: '/test',
+      oneTest: '/test/:id'
     }
   }
 };

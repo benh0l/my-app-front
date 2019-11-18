@@ -4,6 +4,7 @@ import {HomeComponent} from './home/home.component';
 import {GroupComponent} from './group/group.component';
 import {GroupsComponent} from './groups/groups.component';
 import {StudentComponent} from './student/student.component';
+import {LessonComponent} from './lesson/lesson.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'groups', component: GroupsComponent },
   { path: 'group/new', component: GroupComponent },
   { path: 'group/:id', component: GroupComponent },
-  { path: 'student/:id', component: StudentComponent }
+  { path: 'student/:id', component: StudentComponent },
+  { path: 'lesson/:id', component: LessonComponent }
 ];
 
 

@@ -24,6 +24,7 @@ import { LessonComponent } from './lesson/lesson.component';
 import {BackendService} from './shared/services/backend.service';
 import { LessonsComponent } from './lessons/lessons.component';
 import { UserComponent } from './user/user.component';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { UserComponent } from './user/user.component';
     LessonComponent,
     LessonsComponent,
     UserComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
