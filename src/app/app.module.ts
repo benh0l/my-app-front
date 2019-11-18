@@ -10,7 +10,7 @@ import {
   MatTableModule,
   MatInputModule,
   MatButtonModule,
-  MatIconModule, MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatIconRegistry
+  MatIconModule, MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatIconRegistry, MatSelectModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -23,6 +23,7 @@ import { GroupsComponent } from './groups/groups.component';
 import { LessonComponent } from './lesson/lesson.component';
 import {BackendService} from './shared/services/backend.service';
 import { LessonsComponent } from './lessons/lessons.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { LessonsComponent } from './lessons/lessons.component';
     GroupsComponent,
     LessonComponent,
     LessonsComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +51,7 @@ import { LessonsComponent } from './lessons/lessons.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatGridListModule,
+    MatSelectModule,
     AppRoutingModule
   ],
   providers: [BackendService],

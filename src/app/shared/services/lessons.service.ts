@@ -30,14 +30,10 @@ export class LessonsService {
   }
 
   create(lesson: Lesson): Observable<any> {
-    return this._http.post<Lesson>(this._backendService.URL.allLesson, lesson, this._options());
+    return this._http.post<Lesson>(this._backendService.URL.allLesson, lesson, this._backendService.options());
   }
 
   update(lesson: Lesson): Observable<any> {
-    return this._http.put<Lesson>(this._backendService.URL.oneLesson.replace(':id', lesson.id), lesson, this._options());
-  }
-
-  private _options(headerList: object = {}): any {
-    return { headers: new HttpHeaders(Object.assign({ 'Content-Type': 'application/json' }, headerList)) };
+    return this._http.put<Lesson>(this._backendService.URL.oneLesson.replace(':id', lesson.id), lesson, this._backendService.options());
   }
 }

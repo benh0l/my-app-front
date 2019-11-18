@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { filter, flatMap, tap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { Group } from '../shared/interfaces/group';
 import {GroupsService} from '../shared/services/groups.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
@@ -12,20 +13,21 @@ import {LessonsService} from '../shared/services/lessons.service';
   selector: 'app-group',
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.css'],
-  providers: [GroupsService, LessonsService, CustomValidatorsService]
+  providers: [GroupsService, LessonsService, CustomValidatorsService, Location]
 })
 export class GroupComponent implements OnInit {
   private _group: Group;
   private _lessons: Lesson[];
+  private _users: User[];
   private _isCreated: boolean;
   private _isEditing: boolean;
   // private property to store form value
   private readonly _form: FormGroup;
 
-  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _customValidatorsService: CustomValidatorsService) {
+  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _customValidatorsService: CustomValidatorsService, private _location: Location) {
     this._group = {} as Group;
     this._isCreated = false;
-    this._isEditing = false;
+    this._isEditing = true;
     this._form = this._buildForm();
   }
 
@@ -63,26 +65,29 @@ export class GroupComponent implements OnInit {
       this._groupsService.update(group).subscribe(
         () => {alert('Group updated') },
       () => {alert('Error, couldn\'t update'); },
-      () =>{}
+      () =>{this._isEditing = false;}
       );
     } else {
       this._groupsService.create(group).subscribe(
         () => {alert('Group created') },
-        () => {alert('Error, couldn\'t create'); },
-        () =>{}
+        () => {alert('Error, couldn\'t create');
+        },
+        () =>{this._isEditing = false;}
       );
     }
-    this.isEditing = false;
   }
   cancel(){
     this.isEditing = false;
+    if(!this._isCreated){
+      this._location.back();
+    }
   }
 
   ngOnInit() {
     this._route.params.pipe(
       filter(params => !!params.id),
       flatMap(params => this._groupsService.fetchOne(params.id)),
-      tap(_ => {this._isCreated = true;})
+      tap(_ => {this._isCreated = true; this._isEditing = false;})
     ).subscribe((group: any) => {
       this._group = group;
 
