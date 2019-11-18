@@ -45,4 +45,5 @@ export class GroupsComponent implements OnInit {
       )
       .subscribe(_ => this._router.navigate(['/group', _]));
   }
+  
 }

@@ -10,6 +10,8 @@ import {Lesson} from '../shared/interfaces/lesson';
 import {LessonsService} from '../shared/services/lessons.service';
 import {User} from '../shared/interfaces/user';
 import {UsersService} from '../shared/services/users.service';
+import {MatDialog, MatDialogRef} from '@angular/material';
+import {DialogComponent} from '../shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-group',
@@ -18,6 +20,10 @@ import {UsersService} from '../shared/services/users.service';
   providers: [GroupsService, LessonsService, UsersService, CustomValidatorsService, Location]
 })
 export class GroupComponent implements OnInit {
+  private readonly  DIALOG_ACTIVE : string = 'active';
+  private readonly  DIALOG_INACTIVE : string = 'inactive';
+  private _dialogStatus: string;
+  private _confirmDialog: MatDialogRef<DialogComponent>;
   private _group: Group;
   private _lessons: Lesson[];
   private _users: User[];
@@ -26,7 +32,8 @@ export class GroupComponent implements OnInit {
   // private property to store form value
   private readonly _form: FormGroup;
 
-  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location) {
+  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location, private _dialog: MatDialog) {
+    this._dialogStatus = this.DIALOG_INACTIVE;
     this._group = {} as Group;
     this._isCreated = false;
     this._isEditing = true;
@@ -143,6 +150,36 @@ export class GroupComponent implements OnInit {
         this._customValidatorsService.startBeforeEnd('startDate', 'endDate'),
       ]
     });
+  }
+
+  test(){
+    console.log('TESST');
+  }
+
+  showDialog() {
+    this._dialogStatus = this.DIALOG_ACTIVE;
+
+    this._confirmDialog = this._dialog.open(DialogComponent, {
+      width: '500px',
+      disableClose: true
+    });
+    this._confirmDialog.componentInstance.title = `Delete group #${this._group.id}`;
+    this._confirmDialog.componentInstance.sentence = `Are you sure to delete the group named ${this._group.name}`;
+    this._confirmDialog.componentInstance.confirmObject = this._group;
+
+    this._confirmDialog.afterClosed()
+      .pipe(
+        filter(_ => !!_),
+        flatMap(_ => this._groupsService.delete((_ as Group).id))
+      )
+      .subscribe(
+        () => {alert(`Deleted with success`);},
+        () => {
+          this._dialogStatus = this.DIALOG_INACTIVE;
+          alert(`Error: couldn't delete group.`);
+          },
+        () => this._dialogStatus = this.DIALOG_INACTIVE
+      );
   }
 
 }

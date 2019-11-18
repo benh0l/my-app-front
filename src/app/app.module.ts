@@ -10,7 +10,7 @@ import {
   MatTableModule,
   MatInputModule,
   MatButtonModule,
-  MatIconModule, MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatIconRegistry, MatSelectModule
+  MatIconModule, MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatIconRegistry, MatSelectModule, MatDialogModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +25,8 @@ import {BackendService} from './shared/services/backend.service';
 import { LessonsComponent } from './lessons/lessons.component';
 import { UserComponent } from './user/user.component';
 import { TestComponent } from './test/test.component';
+import { ConfirmComponent } from './shared/confirm/confirm.component';
+import { DialogComponent } from './shared/dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,10 @@ import { TestComponent } from './test/test.component';
     LessonsComponent,
     UserComponent,
     TestComponent,
+    ConfirmComponent,
+    DialogComponent,
   ],
+  entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -53,6 +58,7 @@ import { TestComponent } from './test/test.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatGridListModule,
+    MatDialogModule,
     MatSelectModule,
     AppRoutingModule
   ],
