@@ -60,11 +60,11 @@ export class LessonComponent implements OnInit {
     return this._form;
   }
 
-  /*
+
   get tests(): Test[]{
     return this._tests;
   }
-  */
+  
   
   set isEditing(_ : boolean){
     this._isEditing = _;
