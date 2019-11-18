@@ -8,12 +8,14 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CustomValidatorsService} from '../shared/services/custom-validators.service';
 import {Lesson} from '../shared/interfaces/lesson';
 import {LessonsService} from '../shared/services/lessons.service';
+import {User} from '../shared/interfaces/user';
+import {UsersService} from '../shared/services/users.service';
 
 @Component({
   selector: 'app-group',
   templateUrl: './group.component.html',
   styleUrls: ['./group.component.css'],
-  providers: [GroupsService, LessonsService, CustomValidatorsService, Location]
+  providers: [GroupsService, LessonsService, UsersService, CustomValidatorsService, Location]
 })
 export class GroupComponent implements OnInit {
   private _group: Group;
@@ -24,7 +26,7 @@ export class GroupComponent implements OnInit {
   // private property to store form value
   private readonly _form: FormGroup;
 
-  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _customValidatorsService: CustomValidatorsService, private _location: Location) {
+  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location) {
     this._group = {} as Group;
     this._isCreated = false;
     this._isEditing = true;
@@ -34,6 +36,9 @@ export class GroupComponent implements OnInit {
 
   get group(): Group{
     return this._group;
+  }
+  get users(): User[]{
+    return this._users;
   }
 
   get isCreated(): boolean{
@@ -84,6 +89,17 @@ export class GroupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._usersService.fetch().subscribe(
+      (users: User[]) => {
+        console.log("NEXT");
+        this._users = users;
+      },
+      () => {
+        console.log("ERROR");},
+      () => {
+        console.log("COMPLETE");}
+    );
+
     this._route.params.pipe(
       filter(params => !!params.id),
       flatMap(params => this._groupsService.fetchOne(params.id)),
@@ -112,6 +128,9 @@ export class GroupComponent implements OnInit {
       id: new FormControl( '0'),
       name: new FormControl('', Validators.compose([
         Validators.required, Validators.minLength(3)
+      ])),
+      responsibleId: new FormControl('', Validators.compose([
+        Validators.required
       ])),
       startDate: new FormControl('', Validators.compose([
         Validators.required
