@@ -38,6 +38,12 @@ export class GroupComponent implements OnInit {
     return this._isCreated;
   }
 
+  set isCreated(_ : boolean){
+    if(_)
+      this.isEditing = true;
+    this._isCreated = _;
+  }
+
   get isEditing(): boolean{
     return this._isEditing;
   }
@@ -46,8 +52,32 @@ export class GroupComponent implements OnInit {
   }
 
   get lessons(): Lesson[]{
-    console.log("Lesson asked " +this._lessons);
+    console.log('Lesson asked ' + this._lessons);
     return this._lessons;
+  }
+  set isEditing(_ : boolean){
+    this._isEditing = _;
+  }
+
+  save(group: Group){
+    if(this._isCreated){
+      group.id = this._group.id;
+      this._groupsService.update(group).subscribe(
+        () => {alert('Group updated') },
+      () => {alert('Error, couldn\'t update'); },
+      () =>{}
+      );
+    } else {
+      this._groupsService.create(group).subscribe(
+        () => {alert('Group created') },
+        () => {alert('Error, couldn\'t create'); },
+        () =>{}
+      );
+    }
+    this.isEditing = false;
+  }
+  cancel(){
+    this.isEditing = false;
   }
 
   ngOnInit() {
@@ -57,7 +87,7 @@ export class GroupComponent implements OnInit {
       tap(_ => {this._isCreated = true;})
     ).subscribe((group: any) => {
       this._group = group;
-      console.log("Found group");
+      console.log("Found group ", group);
 
       this._lessonsService
       .fetchMultiple(this._group.studentsId).subscribe(
@@ -78,7 +108,7 @@ export class GroupComponent implements OnInit {
 
   private _buildForm(): FormGroup {
     return new FormGroup({
-      id: new FormControl('0'),
+      id: new FormControl( '0'),
       name: new FormControl('', Validators.compose([
         Validators.required, Validators.minLength(3)
       ])),
