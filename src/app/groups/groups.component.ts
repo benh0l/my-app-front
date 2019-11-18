@@ -5,9 +5,10 @@ import {Router} from '@angular/router';
 import { of } from 'rxjs';
 import {filter, flatMap} from 'rxjs/operators';
 import {GroupsService} from '../shared/services/groups.service';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
 import {DialogComponent} from '../shared/dialog/dialog.component';
 import {Location} from '@angular/common';
+import {SnackBarService} from '../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-groups',
@@ -23,7 +24,7 @@ export class GroupsComponent implements OnInit {
   private _groups: Group[];
   private _dataSource: MatTableDataSource<Group>;
 
-  constructor(private _router: Router, private _groupsService: GroupsService, private _dialog: MatDialog) {
+  constructor(private _router: Router, private _groupsService: GroupsService, private _dialog: MatDialog, private _snackBarService: SnackBarService) {
     this._dialogStatus = this.DIALOG_INACTIVE;
     this._groups = [];
   }
@@ -36,7 +37,7 @@ export class GroupsComponent implements OnInit {
     this._dataSource = new MatTableDataSource<Group>();
     this._groupsService
       .fetch().subscribe((groups: Group[]) => this._groups = groups,
-      () => {},
+      () => { this._snackBarService.open(`Couldn't access to the groups list.`); },
       () => { this._dataSource.data = this._groups; }
       );
   }
@@ -50,7 +51,10 @@ export class GroupsComponent implements OnInit {
       .pipe(
         filter(_ => !!_)
       )
-      .subscribe(_ => this._router.navigate(['/group', _]));
+      .subscribe(
+        _ => this._router.navigate(['/group', _]),
+        () => { this._snackBarService.open(`Couldn't navigate to the group page.`); }
+      );
   }
 
   delete(group: Group) {
@@ -70,10 +74,10 @@ export class GroupsComponent implements OnInit {
         flatMap(_ => this._groupsService.delete((_ as Group).id))
       )
       .subscribe(
-        () => {alert(`Deleted with success`);},
+        () => { this._snackBarService.open(`Deleted with success.`); },
         () => {
           this._dialogStatus = this.DIALOG_INACTIVE;
-          alert(`Error: couldn't delete group.`);
+          this._snackBarService.open(`Couldn't delete the group.`);
         },
         () => this._dialogStatus = this.DIALOG_INACTIVE
       );

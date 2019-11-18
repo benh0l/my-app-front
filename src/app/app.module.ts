@@ -10,7 +10,14 @@ import {
   MatTableModule,
   MatInputModule,
   MatButtonModule,
-  MatIconModule, MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatIconRegistry, MatSelectModule, MatDialogModule
+  MatIconModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatGridListModule,
+  MatIconRegistry,
+  MatSelectModule,
+  MatDialogModule,
+  MatSnackBarModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -27,6 +34,7 @@ import { UserComponent } from './user/user.component';
 import { TestComponent } from './test/test.component';
 import { ConfirmComponent } from './shared/confirm/confirm.component';
 import { DialogComponent } from './shared/dialog/dialog.component';
+import {SnackBarService} from './shared/services/snackbar.service';
 
 @NgModule({
   declarations: [
@@ -60,9 +68,10 @@ import { DialogComponent } from './shared/dialog/dialog.component';
     MatGridListModule,
     MatDialogModule,
     MatSelectModule,
+    MatSnackBarModule,
     AppRoutingModule
   ],
-  providers: [BackendService],
+  providers: [SnackBarService, BackendService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
