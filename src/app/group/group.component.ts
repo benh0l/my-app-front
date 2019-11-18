@@ -18,12 +18,14 @@ export class GroupComponent implements OnInit {
   private _group: Group;
   private _lessons: Lesson[];
   private _isCreated: boolean;
+  private _isEditing: boolean;
   // private property to store form value
   private readonly _form: FormGroup;
 
   constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _customValidatorsService: CustomValidatorsService) {
     this._group = {} as Group;
     this._isCreated = false;
+    this._isEditing = false;
     this._form = this._buildForm();
   }
 
@@ -34,6 +36,10 @@ export class GroupComponent implements OnInit {
 
   get isCreated(): boolean{
     return this._isCreated;
+  }
+
+  get isEditing(): boolean{
+    return this._isEditing;
   }
   get form(): FormGroup {
     return this._form;
@@ -48,7 +54,7 @@ export class GroupComponent implements OnInit {
     this._route.params.pipe(
       filter(params => !!params.id),
       flatMap(params => this._groupsService.fetchOne(params.id)),
-      tap(_ => this._isCreated = true)
+      tap(_ => {this._isCreated = true;})
     ).subscribe((group: any) => {
       this._group = group;
       console.log("Found group");

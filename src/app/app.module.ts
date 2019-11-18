@@ -32,7 +32,7 @@ import { LessonsComponent } from './lessons/lessons.component';
     GroupComponent,
     GroupsComponent,
     LessonComponent,
-    LessonsComponent
+    LessonsComponent,
   ],
   imports: [
     BrowserModule,

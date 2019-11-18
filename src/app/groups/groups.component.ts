@@ -3,14 +3,15 @@ import {MatTableDataSource} from '@angular/material/table';
 import { Group } from '../shared/interfaces/group';
 import {Router} from '@angular/router';
 import { of } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {filter, flatMap} from 'rxjs/operators';
 import {GroupsService} from '../shared/services/groups.service';
+import {MatDialog, MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-groups',
   templateUrl: './groups.component.html',
   styleUrls: ['./groups.component.css'],
-  providers: [GroupsService]
+  providers: [GroupsService, MatDialog]
 })
 export class GroupsComponent implements OnInit {
   private _groups: Group[];

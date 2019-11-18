@@ -39,4 +39,9 @@
   </table>
 </section>
 
+<section class="buttons-fab" *ngIf="dialogStatus === 'inactive'">
+  <button (click)="showDialog()" mat-fab color="accent" class="button-add">
+    <i class="material-icons">add</i>
+  </button>
+</section>
 
