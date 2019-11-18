@@ -23,6 +23,7 @@ import { GroupsComponent } from './groups/groups.component';
 import { LessonComponent } from './lesson/lesson.component';
 import {BackendService} from './shared/services/backend.service';
 import { LessonsComponent } from './lessons/lessons.component';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { LessonsComponent } from './lessons/lessons.component';
     GroupsComponent,
     LessonComponent,
     LessonsComponent,
+    TestComponent,
   ],
   imports: [
     BrowserModule,
