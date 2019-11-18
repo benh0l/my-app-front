@@ -6,7 +6,13 @@ export const environment = {
     port: '4000',
     endpoints: {
       allGroup: '/group',
-      oneGroup: '/group/:id'
+      oneGroup: '/group/:id',
+      allLesson: '/lesson',
+      oneLesson: '/lesson/:id',
+      allUser: '/user',
+      oneUser: '/user',
+      allTest: '/test',
+      oneTest: '/test/:id'
     }
   }
 };

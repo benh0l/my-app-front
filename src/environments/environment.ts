@@ -13,8 +13,10 @@ export const environment = {
       oneGroup: '/group/:id',
       allLesson: '/lesson',
       oneLesson: '/lesson/:id',
-      oneTest: '/test/:id',
-      allTest: '/test'
+      allUser: '/user',
+      oneUser: '/user',
+      allTest: '/test',
+      oneTest: '/test/:id'
     }
   }
 };

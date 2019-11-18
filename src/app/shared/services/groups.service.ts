@@ -8,9 +8,6 @@ import {BackendService} from './backend.service';
 
 @Injectable()
 export class GroupsService {
-  // private property to store all backend URLs
-  private readonly _backendURL: any;
-
   constructor(private _http: HttpClient, private _backendService: BackendService) {
   }
 
@@ -27,14 +24,14 @@ export class GroupsService {
   }
 
   create(group: Group): Observable<any> {
-    return this._http.post<Group>(this._backendService.URL.allGroup, group, this._options());
+    delete group.id;
+    return this._http.post<Group>(this._backendService.URL.allGroup, group, this._backendService.options());
   }
 
   update(group: Group): Observable<any> {
-    return this._http.put<Group>(this._backendService.URL.oneGroup.replace(':id', group.id), group, this._options());
+    let id = group.id;
+    delete group.id;
+    return this._http.put<Group>(this._backendService.URL.oneGroup.replace(':id', id), group, this._backendService.options());
   }
 
-  private _options(headerList: object = {}): any {
-    return { headers: new HttpHeaders(Object.assign({ 'Content-Type': 'application/json' }, headerList)) };
-  }
 }
