@@ -30,10 +30,13 @@ export class LessonsService {
   }
 
   create(lesson: Lesson): Observable<any> {
+    delete lesson.id;
     return this._http.post<Lesson>(this._backendService.URL.allLesson, lesson, this._backendService.options());
   }
 
   update(lesson: Lesson): Observable<any> {
-    return this._http.put<Lesson>(this._backendService.URL.oneLesson.replace(':id', lesson.id), lesson, this._backendService.options());
+    let id = lesson.id;
+    delete lesson.id;
+    return this._http.put<Lesson>(this._backendService.URL.oneLesson.replace(':id', id), lesson, this._backendService.options());
   }
 }
