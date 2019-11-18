@@ -20,7 +20,6 @@ export class LessonsComponent implements OnInit {
   @Input()
   set lessons(lessons: Lesson[]){
     this._lessons = lessons;
-    console.log(this._lessons);
     this._dataSource.data = this._lessons;
   }
 

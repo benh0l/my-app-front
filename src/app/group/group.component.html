@@ -1,57 +1,75 @@
 <section>
-  <form novalidate [formGroup]="form">
-    <p>
-      <mat-form-field class="full-width" [class.mgb15]="form.get('name').dirty && form.get('name').invalid">
-        <input matInput placeholder="Name" formControlName="name" minlength="3" required name="name" [attr.disabled]="isEditing ? null: ''" value="{{group.name}}" />
-        <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('required')">
-          Name is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('minlength')">
-          Name is <strong>3 chars min</strong>
-        </mat-error>
-      </mat-form-field>
-    </p>
-
-    <p>
-      <mat-form-field>
-        <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" required name="startDate" [disabled]="!isEditing" placeholder="Choisissez une date de début" value="{{group.startDate}}">
-        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-        <mat-datepicker #startDatePicker ></mat-datepicker>
-        <mat-error *ngIf="form.get('startDate').dirty && form.get('startDate').hasError('required')">
-          Start date is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="!form.get('startDate').hasError('required') && form.errors?.endBeforeStart">
-          Start date cannot be after end date
-        </mat-error>
-      </mat-form-field>
-    </p>
-
-    <p>
-      <mat-form-field>
-        <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required name="endDate"  [disabled]="!isEditing"  placeholder="Choisissez une date de fin" value="{{group.endDate}}">
-        <mat-datepicker-toggle matSuffix [for]="endDatePicker"  ></mat-datepicker-toggle>
-        <mat-datepicker #endDatePicker></mat-datepicker>
-        <mat-error *ngIf="form.get('endDate').dirty && form.get('endDate').hasError('required')">
-          End date is <strong>required</strong>
-        </mat-error>
-        <mat-error *ngIf="!form.get('endDate').hasError('required') && form.errors?.endBeforeStart">
-          End date cannot be before start date
-        </mat-error>
-      </mat-form-field>
-    </p>
-  </form>
-  <button *ngIf="!isEditing" mat-fab (click)="isEditing = true">
-    <i class="material-icons">Edit</i>
-  </button>
-  <button *ngIf="isEditing" mat-fab (click)="save(form.value);">
-    <i class="material-icons">Save</i>
-  </button>
-  <button *ngIf="isEditing && isCreated" mat-fab (click)="cancel();">
-    <i class="material-icons">Cancel</i>
-  </button>
-</section>
-
-<section>
-  <app-lessons *ngIf="!!lessons" [lessons]="lessons">
-  </app-lessons>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Group information</mat-card-title>
+      <mat-card-subtitle><span *ngIf="isCreated" class="">#{{group.id}}</span></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form novalidate [formGroup]="form">
+        <mat-grid-list cols="2" rowHeight="100px">
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field class="full-width" [class.mgb15]="form.get('name').dirty && form.get('name').invalid">
+              <input matInput placeholder="Name" formControlName="name" minlength="3" required name="name" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('required')">
+                Name is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('name').dirty && form.get('name').hasError('minlength')">
+                Name is <strong>3 chars min</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field>
+              <input matInput [matDatepicker]="startDatePicker" formControlName="startDate" required name="startDate" [disabled]="!isEditing" placeholder="Choisissez une date de début">
+              <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #startDatePicker ></mat-datepicker>
+              <mat-error *ngIf="form.get('startDate').dirty && form.get('startDate').hasError('required')">
+                Start date is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="!form.get('startDate').hasError('required') && form.errors?.endBeforeStart">
+                Start date cannot be after end date
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field>
+              <input matInput [matDatepicker]="endDatePicker" formControlName="endDate" required name="endDate"  [disabled]="!isEditing"  placeholder="Choisissez une date de fin">
+              <mat-datepicker-toggle matSuffix [for]="endDatePicker"  ></mat-datepicker-toggle>
+              <mat-datepicker #endDatePicker></mat-datepicker>
+              <mat-error *ngIf="form.get('endDate').dirty && form.get('endDate').hasError('required')">
+                End date is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="!form.get('endDate').hasError('required') && form.errors?.endBeforeStart">
+                End date cannot be before start date
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button *ngIf="!isEditing" mat-fab (click)="isEditing = true">
+        <mat-icon svgIcon="icon-edit" aria-hidden="false" aria-label="Edit"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing" mat-fab (click)="save(form.value);">
+        <mat-icon svgIcon="icon-check" aria-hidden="false" aria-label="Confirm"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing && isCreated" mat-fab (click)="cancel();">
+        <mat-icon svgIcon="icon-close" aria-hidden="false" aria-label="Cancel"></mat-icon>
+      </button>
+    </mat-card-actions>
+    <mat-card-header>
+      <mat-card-title>Lessons</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-lessons *ngIf="!!lessons" [lessons]="lessons">
+      </app-lessons>
+    </mat-card-content>
+  </mat-card>
 </section>

@@ -10,7 +10,7 @@ import {
   MatTableModule,
   MatInputModule,
   MatButtonModule,
-  MatIconModule, MatDatepickerModule, MatNativeDateModule
+  MatIconModule, MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatIconRegistry
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -48,6 +48,7 @@ import { LessonsComponent } from './lessons/lessons.component';
     MatTableModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatGridListModule,
     AppRoutingModule
   ],
   providers: [BackendService],

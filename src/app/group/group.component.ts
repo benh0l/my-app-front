@@ -52,7 +52,6 @@ export class GroupComponent implements OnInit {
   }
 
   get lessons(): Lesson[]{
-    console.log('Lesson asked ' + this._lessons);
     return this._lessons;
   }
   set isEditing(_ : boolean){
@@ -61,7 +60,6 @@ export class GroupComponent implements OnInit {
 
   save(group: Group){
     if(this._isCreated){
-      group.id = this._group.id;
       this._groupsService.update(group).subscribe(
         () => {alert('Group updated') },
       () => {alert('Error, couldn\'t update'); },
@@ -87,13 +85,12 @@ export class GroupComponent implements OnInit {
       tap(_ => {this._isCreated = true;})
     ).subscribe((group: any) => {
       this._group = group;
-      console.log("Found group ", group);
+
+      this._form.patchValue(group);
 
       this._lessonsService
-      .fetchMultiple(this._group.studentsId).subscribe(
+      .fetchMultiple(this._group.lessonsId).subscribe(
         (lessons: Lesson[]) => {
-
-          console.log("Found lesson "+lessons);
           this._lessons = lessons;},
         () => {console.log("Error: Couldn't load lessons from group '"+this._group.id+"'")},
         () => {console.log("Lesson completed"); }
@@ -104,7 +101,6 @@ export class GroupComponent implements OnInit {
       () => {console.log("complete: "+this._lessons);}
     );
   }
-
 
   private _buildForm(): FormGroup {
     return new FormGroup({
