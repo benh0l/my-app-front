@@ -156,7 +156,7 @@ export class GroupComponent implements OnInit {
     console.log('TESST');
   }
 
-  showDialog() {
+  delete() {
     this._dialogStatus = this.DIALOG_ACTIVE;
 
     this._confirmDialog = this._dialog.open(DialogComponent, {
