@@ -12,7 +12,9 @@ export const environment = {
       allGroup: '/group',
       oneGroup: '/group/:id',
       allLesson: '/lesson',
-      oneLesson: '/lesson/:id'
+      oneLesson: '/lesson/:id',
+      allUser: '/user',
+      oneUser: '/user'
     }
   }
 };

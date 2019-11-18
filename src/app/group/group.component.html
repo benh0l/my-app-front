@@ -25,7 +25,7 @@
             [rowspan]="'1'">
             <mat-form-field>
               <mat-label>Responsible</mat-label>
-              <mat-select  formControlName="responsibleId" [class.mgb15]="form.get('responsibleId').dirty && form.get('responsibleId').invalid" required [attr.disabled]="isEditing ? null: ''" >
+              <mat-select  formControlName="responsibleId" [class.mgb15]="form.get('responsibleId').dirty && form.get('responsibleId').invalid" required [disabled]="!isEditing" >
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let user of users" [value]="user.id">
                   {{user.firstname | titlecase}} {{user.lastname | uppercase}}
