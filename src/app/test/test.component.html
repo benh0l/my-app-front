@@ -1,1 +1,72 @@
-<p>test works!</p>
+<section>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Test information</mat-card-title>
+      <mat-card-subtitle><span *ngIf="isCreated" class="">#{{test.id}}</span></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form novalidate [formGroup]="form">
+        <mat-grid-list cols="2" rowHeight="100px">
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field class="full-width" [class.mgb15]="form.get('title').dirty && form.get('title').invalid">
+              <input matInput placeholder="Title" formControlName="title" minlength="3" required name="title" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('title').dirty && form.get('title').hasError('required')">
+                Title is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('title').dirty && form.get('title').hasError('minlength')">
+                Title is <strong>3 chars min</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field class="full-width" [class.mgb15]="form.get('date').dirty && form.get('date').invalid">
+              <input matInput placeholder="date" formControlName="date" required name="date" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('date').dirty && form.get('date').hasError('required')">
+                Date is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field>
+              <input matInput placeholder="coefficient" formControlName="coefficient" required name="coefficient" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('coefficient').dirty && form.get('coefficient').hasError('required')">
+                Coefficient is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('coefficient').dirty && form.get('coefficient').hasError('min')">
+                Coefficient must be a minimum of <strong>0</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('coefficient').dirty && form.get('coefficient').hasError('max')">
+                Coefficient must be a maximum of <strong>20</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button *ngIf="!isEditing" mat-fab (click)="isEditing = true">
+        <mat-icon svgIcon="icon-edit" aria-hidden="false" aria-label="Edit"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing" mat-fab (click)="save(form.value);">
+        <mat-icon svgIcon="icon-check" aria-hidden="false" aria-label="Confirm"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing && isCreated" mat-fab (click)="cancel();">
+        <mat-icon svgIcon="icon-close" aria-hidden="false" aria-label="Cancel"></mat-icon>
+      </button>
+    </mat-card-actions>
+    <mat-card-header>
+      <mat-card-title>Grades</mat-card-title>
+    </mat-card-header>
+    <!--
+    <mat-card-content>
+      <app-test *ngIf="!!test" [test]="test"></app-test>
+    </mat-card-content>
+    -->
+  </mat-card>
+</section>
