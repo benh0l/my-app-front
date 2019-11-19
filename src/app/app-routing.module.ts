@@ -6,16 +6,21 @@ import {GroupsComponent} from './groups/groups.component';
 import {StudentComponent} from './student/student.component';
 import {LessonComponent} from './lesson/lesson.component';
 import {TestComponent} from './test/test.component';
+import {UsersComponent} from './users/users.component';
+import {UserComponent} from './user/user.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'groups', component: GroupsComponent },
+  { path: 'users', component: UsersComponent },
+  { path: 'user/:id', component: UserComponent },
   { path: 'group/new', component: GroupComponent },
   { path: 'group/:id', component: GroupComponent },
   { path: 'student/:id', component: StudentComponent },
   { path: 'lesson/:id', component: LessonComponent },
+  { path: 'lessons', component: LessonComponent },
   { path: 'test/:id', component: TestComponent },
 ];
 

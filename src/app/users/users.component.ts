@@ -1,16 +1,19 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Lesson} from '../shared/interfaces/lesson';
-import {MatTableDataSource} from '@angular/material';
+import {MatTableDataSource, MatDialog} from '@angular/material';
 import {Router} from '@angular/router';
 import {SnackBarService} from '../shared/services/snackbar.service';
 import {of} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {User} from '../shared/interfaces/user';
+import {SpinnerService} from '../shared/services/spinner.service';
+import {UsersService} from '../shared/services/users.service';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['./users.component.css'],
+  providers: [UsersService, MatDialog]
 })
 export class UsersComponent implements OnInit {
   private _users: User[];
@@ -28,7 +31,7 @@ export class UsersComponent implements OnInit {
     return this._users;
   }
 
-  constructor(private _router: Router, private _snackBarService: SnackBarService) {
+  constructor(private _router: Router, private _snackBarService: SnackBarService,  private _spinnerService: SpinnerService, private _usersService: UsersService) {
     this._users = [];
     this._dataSource = new MatTableDataSource<User>();
     this._remove$ = new EventEmitter<User>();
@@ -39,6 +42,19 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._spinnerService.start();
+    this._dataSource = new MatTableDataSource<User>();
+    this._usersService
+      .fetch().subscribe((users: User[]) => this._users = users,
+      () => {
+        this._snackBarService.open(`Couldn't access to the users list.`);
+        this._spinnerService.stop();
+      },
+      () => {
+        this._dataSource.data = this._users;
+        this._spinnerService.stop();
+      }
+    );
   }
 
   applyFilter(filterValue: string){

@@ -23,6 +23,9 @@
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
+        <button mat-icon-button matTooltip="Click to view" class="iconbutton" color="primary" (click)="goToUser(element.id)">
+          <mat-icon aria-label="View">View</mat-icon>
+        </button>
         <button mat-icon-button matTooltip="Click to remove" class="iconbutton" color="primary" (click)="remove(element)">
           <mat-icon aria-label="Remove">Remove</mat-icon>
         </button>

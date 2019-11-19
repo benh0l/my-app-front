@@ -1,1 +1,71 @@
-<p>user works!</p>
+<section>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>User information</mat-card-title>
+      <mat-card-subtitle><span *ngIf="isCreated" class="">#{{user.id}}</span></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form novalidate [formGroup]="form">
+        <mat-grid-list cols="2" rowHeight="100px">
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field class="full-width" [class.mgb15]="form.get('firstname').dirty && form.get('firstname').invalid">
+              <input matInput placeholder="firstname" formControlName="firstname" minlength="3" required name="firstname" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('firstname').dirty && form.get('firstname').hasError('required')">
+                Firstname is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('firstname').dirty && form.get('firstname').hasError('minlength')">
+                Firstname is <strong>3 chars min</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field>
+              <mat-form-field class="full-width" [class.mgb15]="form.get('lastname').dirty && form.get('lastname').invalid">
+                <input matInput placeholder="lastname" formControlName="lastname" minlength="3" required name="lastname" [attr.disabled]="isEditing ? null: ''" />
+                <mat-error *ngIf="form.get('lastname').dirty && form.get('lastname').hasError('required')">
+                  Lastname is <strong>required</strong>
+                </mat-error>
+                <mat-error *ngIf="form.get('lastname').dirty && form.get('lastname').hasError('minlength')">
+                  Lastname is <strong>3 chars min</strong>
+                </mat-error>
+              </mat-form-field>
+            </mat-form-field>
+
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field>
+              <input matInput placeholder="login" formControlName="login" minlength="3" required name="login" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('login').dirty && form.get('login').hasError('required')">
+                Login is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('login').dirty && form.get('login').hasError('minlength')">
+                Login is <strong>3 chars min</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button *ngIf="!isEditing && isCreated" mat-fab (click)="isEditing = true">
+        <mat-icon svgIcon="icon-edit" aria-hidden="false" aria-label="Edit"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing" mat-fab (click)="save(form.value);">
+        <mat-icon svgIcon="icon-check" aria-hidden="false" aria-label="Confirm"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing" mat-fab (click)="cancel();">
+        <mat-icon svgIcon="icon-close" aria-hidden="false" aria-label="Cancel"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isCreated" mat-fab (click)="delete()">
+        <mat-icon svgIcon="icon-delete" aria-hidden="false" aria-label="Delete"></mat-icon>
+      </button>
+    </mat-card-actions>
+
+  </mat-card>
+</section>
