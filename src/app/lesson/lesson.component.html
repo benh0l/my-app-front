@@ -23,20 +23,49 @@
           <mat-grid-tile
             [colspan]="'1'"
             [rowspan]="'1'">
+            <!--
             <mat-form-field class="full-width" [class.mgb15]="form.get('name').dirty && form.get('name').invalid">
               <input matInput placeholder="TeacherId" formControlName="teacherId" required name="teacherId" [attr.disabled]="isEditing ? null: ''" />
               <mat-error *ngIf="form.get('teacherId').dirty && form.get('teacherId').hasError('required')">
                 TeacherId is <strong>required</strong>
               </mat-error>
             </mat-form-field>
+            -->
+            <mat-form-field>
+              <mat-label>Teacher</mat-label>
+              <mat-select  formControlName="teacherId" [class.mgb15]="form.get('teacherId').dirty && form.get('teacherId').invalid" required [disabled]="!isEditing" >
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let user of users" [value]="user.id">
+                  {{user.firstname | titlecase}} {{user.lastname | uppercase}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('teacherId').dirty && form.get('teacherId').hasError('required')">
+                Teacher is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
           </mat-grid-tile>
           <mat-grid-tile
             [colspan]="'1'"
             [rowspan]="'1'">
+            <!--
             <mat-form-field>
               <input matInput placeholder="GroupId" formControlName="groupId" required name="groupId" [attr.disabled]="isEditing ? null: ''" />
               <mat-error *ngIf="form.get('groupId').dirty && form.get('groupId').hasError('required')">
                 GroupId is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+            -->
+            <mat-form-field>
+              <mat-label>Group</mat-label>
+              <mat-select  formControlName="groupId" [class.mgb15]="form.get('groupId').dirty && form.get('groupId').invalid" required [disabled]="!isEditing" >
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let group of groups" [value]="group.id">
+                  {{group.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('groupId').dirty && form.get('groupId').hasError('required')">
+                Group is <strong>required</strong>
               </mat-error>
             </mat-form-field>
           </mat-grid-tile>
