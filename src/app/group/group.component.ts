@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { filter, flatMap, tap } from 'rxjs/operators';
+import {filter, flatMap, map, tap} from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Group } from '../shared/interfaces/group';
@@ -110,11 +110,13 @@ export class GroupComponent implements OnInit {
     );
 
 
-    this._spinnerService.start();
     this._route.params.pipe(
       filter(params => !!params.id),
-      flatMap(params => this._groupsService.fetchOne(params.id)),
-      tap(_ => {this._isCreated = true; this._isEditing = false;})
+      flatMap(params => {
+        this._spinnerService.start();
+        return this._groupsService.fetchOne(params.id);
+      }),
+      tap(_ => {this._isCreated = true; this._isEditing = false; })
     ).subscribe((group: any) => {
       this._group = group;
       this._form.patchValue(group);
