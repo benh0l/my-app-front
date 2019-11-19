@@ -39,7 +39,7 @@ export class GroupComponent implements OnInit {
   constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location, private _dialog: MatDialog, private _snackBarService: SnackBarService, private _spinnerService: SpinnerService) {
     this._dialogStatus = this.DIALOG_INACTIVE;
     this._group = {} as Group;
-    this._isCreated = false;
+    this.isCreated = false;
     this._isEditing = true;
     this._form = this._buildForm();
   }
@@ -150,8 +150,7 @@ export class GroupComponent implements OnInit {
         return this._groupsService.fetchOne(params.id);
       })
     ).subscribe((group: any) => {
-        this._isCreated = true;
-        this._isEditing = false;
+        this.isCreated = true;
         this._group = group;
         this._form.patchValue(group);
         this._fetchLessons();
@@ -160,7 +159,7 @@ export class GroupComponent implements OnInit {
       },
       () => {
         this._spinnerService.stop();
-        this._snackBarService.open(`Error: Couldn't find group '${this._group.id}`);
+        this._snackBarService.open(`Error: Couldn't find group.`);
       }
     );
   }

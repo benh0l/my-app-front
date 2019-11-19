@@ -2,7 +2,7 @@
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Test information</mat-card-title>
-      <mat-card-subtitle><span *ngIf="isCreated" class="">#{{test.id}}</span></mat-card-subtitle>
+      <mat-card-subtitle><span *ngIf="isCreated" class="">#{{this._test.id}}</span></mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
       <form novalidate [formGroup]="form">
@@ -23,8 +23,10 @@
           <mat-grid-tile
             [colspan]="'1'"
             [rowspan]="'1'">
-            <mat-form-field class="full-width" [class.mgb15]="form.get('date').dirty && form.get('date').invalid">
-              <input matInput placeholder="date" formControlName="date" required name="date" [attr.disabled]="isEditing ? null: ''" />
+            <mat-form-field>
+              <input matInput [matDatepicker]="datePicker" formControlName="date" required name="date"  [disabled]="!isEditing"  placeholder="Choisissez une date">
+              <mat-datepicker-toggle matSuffix [for]="datePicker"  ></mat-datepicker-toggle>
+              <mat-datepicker #datePicker></mat-datepicker>
               <mat-error *ngIf="form.get('date').dirty && form.get('date').hasError('required')">
                 Date is <strong>required</strong>
               </mat-error>
@@ -49,7 +51,7 @@
         </mat-grid-list>
       </form>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions align="end">
       <button mat-button *ngIf="!isEditing" mat-fab (click)="isEditing = true">
         <mat-icon svgIcon="icon-edit" aria-hidden="false" aria-label="Edit"></mat-icon>
       </button>
@@ -60,13 +62,12 @@
         <mat-icon svgIcon="icon-close" aria-hidden="false" aria-label="Cancel"></mat-icon>
       </button>
     </mat-card-actions>
-    <mat-card-header>
+    <mat-card-header *ngIf="isCreated">
       <mat-card-title>Grades</mat-card-title>
     </mat-card-header>
-    <!--
     <mat-card-content>
-      <app-test *ngIf="!!test" [test]="test"></app-test>
+      <app-grades *ngIf="!!grades" [grades]="grades" >
+      </app-grades>
     </mat-card-content>
-    -->
   </mat-card>
 </section>

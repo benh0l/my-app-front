@@ -40,6 +40,7 @@ import { TestsComponent } from './tests/tests.component';
 import { UsersComponent } from './users/users.component';
 import { CapitalizePipe } from './shared/pipes/capitalize.pipe';
 import { UserNamePipe } from './shared/pipes/user-name.pipe';
+import { GradesComponent } from './grades/grades.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { UserNamePipe } from './shared/pipes/user-name.pipe';
     UsersComponent,
     CapitalizePipe,
     UserNamePipe,
+    GradesComponent,
   ],
   entryComponents: [DialogComponent],
   imports: [

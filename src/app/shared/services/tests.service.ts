@@ -32,10 +32,13 @@ export class TestsService {
   }
 
   create(test: Test): Observable<any> {
+    delete test.id;
     return this._http.post<Test>(this._backendService.URL.allTest, test, this._backendService.options());
   }
 
   update(test: Test): Observable<any> {
-    return this._http.put<Test>(this._backendService.URL.oneLesson.replace(':id', test.id), test, this._backendService.options());
+    let id = test.id;
+    delete test.id;
+    return this._http.put<Test>(this._backendService.URL.oneTest.replace(':id', id), test, this._backendService.options());
   }
 }

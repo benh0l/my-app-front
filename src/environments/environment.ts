@@ -18,7 +18,9 @@ export const environment = {
       allUser: '/user',
       oneUser: '/user/:id',
       allTest: '/test',
-      oneTest: '/test/:id'
+      oneTest: '/test/:id',
+      allGrade: '/grade',
+      oneGrade: '/grade/:id'
     }
   }
 };
