@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import {Observable, from, forkJoin} from 'rxjs';
-import { defaultIfEmpty, filter, mergeMap } from 'rxjs/operators';
+import { defaultIfEmpty, filter, mergeMap, map } from 'rxjs/operators';
 import {Lesson} from '../interfaces/lesson';
 import {BackendService} from './backend.service';
 
@@ -38,5 +38,12 @@ export class LessonsService {
     let id = lesson.id;
     delete lesson.id;
     return this._http.put<Lesson>(this._backendService.URL.oneLesson.replace(':id', id), lesson, this._backendService.options());
+  }
+
+  delete(id: string): Observable<string>{
+    return this._http.delete(this._backendService.URL.oneLesson.replace(':id', id))
+      .pipe(
+        map(_ => id)
+      );
   }
 }
