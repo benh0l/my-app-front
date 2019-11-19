@@ -16,7 +16,6 @@ export class AppComponent {
    */
   constructor(private _router: Router, private _matIconRegistry: MatIconRegistry, private _domSanitizer: DomSanitizer, private _spinnerService: SpinnerService, private _changeDetectorRef: ChangeDetectorRef) {
     this._spinnerService.spinnerToggled$.subscribe((status) => {
-      console.log(`Loader status: ${status}`);
       this._isLoading = status;
       this._changeDetectorRef.detectChanges();
     });
