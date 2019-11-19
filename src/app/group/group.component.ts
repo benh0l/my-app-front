@@ -13,6 +13,7 @@ import {UsersService} from '../shared/services/users.service';
 import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
 import {DialogComponent} from '../shared/dialog/dialog.component';
 import {SnackBarService} from '../shared/services/snackbar.service';
+import {SpinnerService} from '../shared/services/spinner.service';
 
 @Component({
   selector: 'app-group',
@@ -33,7 +34,7 @@ export class GroupComponent implements OnInit {
   // private property to store form value
   private readonly _form: FormGroup;
 
-  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location, private _dialog: MatDialog, private _snackBarService: SnackBarService) {
+  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location, private _dialog: MatDialog, private _snackBarService: SnackBarService, private _spinnerService: SpinnerService) {
     this._dialogStatus = this.DIALOG_INACTIVE;
     this._group = {} as Group;
     this._isCreated = false;
@@ -96,15 +97,20 @@ export class GroupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._spinnerService.start();
     this._usersService.fetch().subscribe(
       (users: User[]) => {
         this._users = users;
+        this._spinnerService.stop();
       },
       () => {
         this._snackBarService.open(`Couldn't access to the users list.`);
+        this._spinnerService.stop();
       }
     );
 
+
+    this._spinnerService.start();
     this._route.params.pipe(
       filter(params => !!params.id),
       flatMap(params => this._groupsService.fetchOne(params.id)),
@@ -116,12 +122,20 @@ export class GroupComponent implements OnInit {
       this._lessonsService
       .fetchMultiple(this._group.lessonsId).subscribe(
         (lessons: Lesson[]) => {
-          this._lessons = lessons;},
-        () => {this._snackBarService.open(`Error: Couldn't load lessons from group '${this._group.id}`); },
+          this._lessons = lessons;
+          this._spinnerService.stop();
+          },
+        () => {
+          this._spinnerService.stop();
+          this._snackBarService.open(`Error: Couldn't load lessons from group '${this._group.id}`);
+          },
       );
 
     },
-      () => {this._snackBarService.open(`Error: Couldn't find group '${this._group.id}`); }
+      () => {
+        this._spinnerService.stop();
+        this._snackBarService.open(`Error: Couldn't find group '${this._group.id}`);
+      }
     );
   }
 
@@ -165,12 +179,19 @@ export class GroupComponent implements OnInit {
     this._confirmDialog.afterClosed()
       .pipe(
         filter(_ => !!_),
-        flatMap(_ => this._groupsService.delete((_ as Group).id))
+        flatMap((_) => {
+          this._spinnerService.start();
+          return this._groupsService.delete((_ as Group).id);
+        })
       )
       .subscribe(
-        () => {this._snackBarService.open(`Deleted with success.`);},
+        () => {
+          this._spinnerService.stop();
+          this._snackBarService.open(`Deleted with success.`);
+          },
         () => {
           this._dialogStatus = this.DIALOG_INACTIVE;
+          this._spinnerService.stop();
           this._snackBarService.open(`Error: couldn't delete group.`);
           },
         () => this._dialogStatus = this.DIALOG_INACTIVE

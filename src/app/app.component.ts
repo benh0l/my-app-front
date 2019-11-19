@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MatIconRegistry} from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
+import {NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
+import {SpinnerService} from './shared/services/spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +10,33 @@ import {DomSanitizer} from '@angular/platform-browser';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  private _isLoading: boolean = true;
   /**
    * Component constructor
    */
-  constructor(private _matIconRegistry: MatIconRegistry, private _domSanitizer: DomSanitizer) {
+  constructor(private _router: Router, private _matIconRegistry: MatIconRegistry, private _domSanitizer: DomSanitizer, private _spinnerService: SpinnerService, private _changeDetectorRef: ChangeDetectorRef) {
+    this._spinnerService.spinnerToggled$.subscribe((status) => {
+      console.log(`Loader status: ${status}`);
+      this._isLoading = status;
+      this._changeDetectorRef.detectChanges();
+    });
+    this._router.events
+      .subscribe((event) => {
+        if(event instanceof NavigationStart) {
+          this._spinnerService.reset();
+          this._spinnerService.start();
+        } else if (
+          event instanceof NavigationEnd ||
+          event instanceof NavigationError ||
+          event instanceof NavigationCancel
+        ) {
+          this._spinnerService.stop();
+        }
+      });
+  }
+
+  get isLoading(): boolean{
+    return this._isLoading;
   }
 
   /**

@@ -17,7 +17,7 @@ import {
   MatIconRegistry,
   MatSelectModule,
   MatDialogModule,
-  MatSnackBarModule
+  MatSnackBarModule, MatProgressSpinnerModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -35,6 +35,7 @@ import { TestComponent } from './test/test.component';
 import { ConfirmComponent } from './shared/confirm/confirm.component';
 import { DialogComponent } from './shared/dialog/dialog.component';
 import {SnackBarService} from './shared/services/snackbar.service';
+import {SpinnerService} from './shared/services/spinner.service';
 
 @NgModule({
   declarations: [
@@ -69,9 +70,10 @@ import {SnackBarService} from './shared/services/snackbar.service';
     MatDialogModule,
     MatSelectModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     AppRoutingModule
   ],
-  providers: [SnackBarService, BackendService],
+  providers: [SnackBarService, BackendService, SpinnerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
