@@ -1,16 +1,16 @@
 <mat-toolbar class="extend-toolbar">
   <span>
-    <a [routerLink]="['/']">MyApp</a>
+    <a [routerLink]="['/']">Stud'eyes</a>
   </span>
-  <!--
-  <span class="flex"></span>
-  -->
-  <span>
-    <a [routerLink]="['/groups']">Groups</a>
-  </span>
-  <span>
-    <a [routerLink]="['/users']">Users</a>
-  </span>
+
+  <span class="flex">
+    <span>
+      <a [routerLink]="['/groups']">Groups</a>
+    </span>
+    <span>
+      <a [routerLink]="['/users']">Users</a>
+    </span>
+    </span>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
