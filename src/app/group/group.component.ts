@@ -161,7 +161,18 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  onRemove(){
+  onRemove(user: User){
+    this._spinnerService.start();
+    this._groupsService.deleteUser(this._group.id, user.id).subscribe(
+      () => {
+        this._spinnerService.stop();
+        this._snackBarService.open(`User was removed with success.`);
+      },
+      () => {
+        this._spinnerService.stop();
+        this._snackBarService.open(`Error: couldn't remove user.`);
+      }
+    );
   }
 
   delete() {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Lesson} from '../shared/interfaces/lesson';
 import {MatTableDataSource} from '@angular/material';
 import {Router} from '@angular/router';
@@ -31,6 +31,7 @@ export class UsersComponent implements OnInit {
   constructor(private _router: Router, private _snackBarService: SnackBarService) {
     this._users = [];
     this._dataSource = new MatTableDataSource<User>();
+    this._remove$ = new EventEmitter<User>();
   }
 
   get dataSource(): MatTableDataSource<User>{
@@ -42,6 +43,11 @@ export class UsersComponent implements OnInit {
 
   applyFilter(filterValue: string){
     this._dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  @Output('remove')
+  get remove$(): EventEmitter<User> {
+    return this._remove$;
   }
 
   remove(user: User){
