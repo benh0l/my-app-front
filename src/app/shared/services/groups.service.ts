@@ -34,4 +34,10 @@ export class GroupsService {
     return this._http.put<Group>(this._backendService.URL.oneGroup.replace(':id', id), group, this._backendService.options());
   }
 
+  delete(id: string): Observable<string>{
+    return this._http.delete(this._backendService.URL.oneGroup.replace(':id', id))
+      .pipe(
+        map(_ => id)
+      );
+  }
 }

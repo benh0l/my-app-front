@@ -10,6 +10,7 @@ import {MatDialog, MatDialogRef} from '@angular/material';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {CustomValidatorsService} from '../shared/services/custom-validators.service';
 import {flatMap, tap, filter} from 'rxjs/operators';
+import {SnackBarService} from '../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-lesson',
@@ -28,7 +29,7 @@ export class LessonComponent implements OnInit {
   private readonly _form: FormGroup;
   private _tests: Test[];
 
-  constructor(private _router: Router, private _lessonsService: LessonsService, private _testsService: TestsService, private _route: ActivatedRoute, private _customValidatorsService: CustomValidatorsService) {
+  constructor(private _router: Router, private _lessonsService: LessonsService, private _testsService: TestsService, private _route: ActivatedRoute, private _customValidatorsService: CustomValidatorsService, private _snackBarService: SnackBarService) {
     this._lesson = {} as Lesson;
     this._isCreated = false;
     this._isEditing = false;
@@ -64,8 +65,8 @@ export class LessonComponent implements OnInit {
   get tests(): Test[]{
     return this._tests;
   }
-  
-  
+
+
   set isEditing(_ : boolean){
     this._isEditing = _;
   }
@@ -84,11 +85,10 @@ export class LessonComponent implements OnInit {
         .fetchMultiple(this._lesson.testsId).subscribe(
         (tests: Test[]) => {
           this._tests = tests;},
-        () => {console.log("Error: Couldn't load tests from lessons '"+this._lesson.id+"'")},
-        () => {console.log("Test completed"); }
+        () => {this._snackBarService.open(`Error: Couldn't load tests from lessons '${this._lesson.id}'.`); },
       );
   },
-      () => {console.log("Error: Couldn't find lesson'"+this._lesson.id+"'.");},
+      () => {this._snackBarService.open(`Error: Couldn't find lesson '${this._lesson.id}'.`); },
       () => {console.log("complete: "+this._tests);}
     );
   }

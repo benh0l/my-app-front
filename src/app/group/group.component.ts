@@ -10,6 +10,10 @@ import {Lesson} from '../shared/interfaces/lesson';
 import {LessonsService} from '../shared/services/lessons.service';
 import {User} from '../shared/interfaces/user';
 import {UsersService} from '../shared/services/users.service';
+import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
+import {DialogComponent} from '../shared/dialog/dialog.component';
+import {SnackBarService} from '../shared/services/snackbar.service';
+import {SpinnerService} from '../shared/services/spinner.service';
 
 @Component({
   selector: 'app-group',
@@ -18,6 +22,10 @@ import {UsersService} from '../shared/services/users.service';
   providers: [GroupsService, LessonsService, UsersService, CustomValidatorsService, Location]
 })
 export class GroupComponent implements OnInit {
+  private readonly  DIALOG_ACTIVE : string = 'active';
+  private readonly  DIALOG_INACTIVE : string = 'inactive';
+  private _dialogStatus: string;
+  private _confirmDialog: MatDialogRef<DialogComponent>;
   private _group: Group;
   private _lessons: Lesson[];
   private _users: User[];
@@ -26,7 +34,8 @@ export class GroupComponent implements OnInit {
   // private property to store form value
   private readonly _form: FormGroup;
 
-  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location) {
+  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location, private _dialog: MatDialog, private _snackBarService: SnackBarService, private _spinnerService: SpinnerService) {
+    this._dialogStatus = this.DIALOG_INACTIVE;
     this._group = {} as Group;
     this._isCreated = false;
     this._isEditing = true;
@@ -68,15 +77,14 @@ export class GroupComponent implements OnInit {
   save(group: Group){
     if(this._isCreated){
       this._groupsService.update(group).subscribe(
-        () => {alert('Group updated') },
-      () => {alert('Error, couldn\'t update'); },
+        () => { this._snackBarService.open(`Group updated.`); },
+      () => {this._snackBarService.open(`Couldn't update the group.`); },
       () =>{this._isEditing = false;}
       );
     } else {
       this._groupsService.create(group).subscribe(
-        () => {alert('Group created') },
-        () => {alert('Error, couldn\'t create');
-        },
+        () => {this._snackBarService.open(`Created group with success.`); },
+        () => { this._snackBarService.open(`Couldn't create the group.`); },
         () =>{this._isEditing = false;}
       );
     }
@@ -89,37 +97,45 @@ export class GroupComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._spinnerService.start();
     this._usersService.fetch().subscribe(
       (users: User[]) => {
-        console.log("NEXT");
         this._users = users;
+        this._spinnerService.stop();
       },
       () => {
-        console.log("ERROR");},
-      () => {
-        console.log("COMPLETE");}
+        this._snackBarService.open(`Couldn't access to the users list.`);
+        this._spinnerService.stop();
+      }
     );
 
+
+    this._spinnerService.start();
     this._route.params.pipe(
       filter(params => !!params.id),
       flatMap(params => this._groupsService.fetchOne(params.id)),
       tap(_ => {this._isCreated = true; this._isEditing = false;})
     ).subscribe((group: any) => {
       this._group = group;
-
       this._form.patchValue(group);
 
       this._lessonsService
       .fetchMultiple(this._group.lessonsId).subscribe(
         (lessons: Lesson[]) => {
-          this._lessons = lessons;},
-        () => {console.log("Error: Couldn't load lessons from group '"+this._group.id+"'")},
-        () => {console.log("Lesson completed"); }
+          this._lessons = lessons;
+          this._spinnerService.stop();
+          },
+        () => {
+          this._spinnerService.stop();
+          this._snackBarService.open(`Error: Couldn't load lessons from group '${this._group.id}`);
+          },
       );
 
     },
-      () => {console.log("Error: Couldn't find group '"+this._group.id+"'.");},
-      () => {console.log("complete: "+this._lessons);}
+      () => {
+        this._spinnerService.stop();
+        this._snackBarService.open(`Error: Couldn't find group '${this._group.id}`);
+      }
     );
   }
 
@@ -143,6 +159,43 @@ export class GroupComponent implements OnInit {
         this._customValidatorsService.startBeforeEnd('startDate', 'endDate'),
       ]
     });
+  }
+
+  test(){
+    console.log('TESST');
+  }
+
+  delete() {
+    this._dialogStatus = this.DIALOG_ACTIVE;
+
+    this._confirmDialog = this._dialog.open(DialogComponent, {
+      width: '500px',
+      disableClose: true
+    });
+    this._confirmDialog.componentInstance.title = `Delete group #${this._group.id}`;
+    this._confirmDialog.componentInstance.sentence = `Are you sure to delete the group named ${this._group.name}`;
+    this._confirmDialog.componentInstance.confirmObject = this._group;
+
+    this._confirmDialog.afterClosed()
+      .pipe(
+        filter(_ => !!_),
+        flatMap((_) => {
+          this._spinnerService.start();
+          return this._groupsService.delete((_ as Group).id);
+        })
+      )
+      .subscribe(
+        () => {
+          this._spinnerService.stop();
+          this._snackBarService.open(`Deleted with success.`);
+          },
+        () => {
+          this._dialogStatus = this.DIALOG_INACTIVE;
+          this._spinnerService.stop();
+          this._snackBarService.open(`Error: couldn't delete group.`);
+          },
+        () => this._dialogStatus = this.DIALOG_INACTIVE
+      );
   }
 
 }

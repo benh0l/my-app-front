@@ -10,7 +10,14 @@ import {
   MatTableModule,
   MatInputModule,
   MatButtonModule,
-  MatIconModule, MatDatepickerModule, MatNativeDateModule, MatGridListModule, MatIconRegistry, MatSelectModule
+  MatIconModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatGridListModule,
+  MatIconRegistry,
+  MatSelectModule,
+  MatDialogModule,
+  MatSnackBarModule, MatProgressSpinnerModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,6 +32,10 @@ import {BackendService} from './shared/services/backend.service';
 import { LessonsComponent } from './lessons/lessons.component';
 import { UserComponent } from './user/user.component';
 import { TestComponent } from './test/test.component';
+import { ConfirmComponent } from './shared/confirm/confirm.component';
+import { DialogComponent } from './shared/dialog/dialog.component';
+import {SnackBarService} from './shared/services/snackbar.service';
+import {SpinnerService} from './shared/services/spinner.service';
 import { TestsComponent } from './tests/tests.component';
 
 @NgModule({
@@ -39,7 +50,10 @@ import { TestsComponent } from './tests/tests.component';
     UserComponent,
     TestComponent,
     TestsComponent,
+    ConfirmComponent,
+    DialogComponent,
   ],
+  entryComponents: [DialogComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -55,10 +69,13 @@ import { TestsComponent } from './tests/tests.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatGridListModule,
+    MatDialogModule,
     MatSelectModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
     AppRoutingModule
   ],
-  providers: [BackendService],
+  providers: [SnackBarService, BackendService, SpinnerService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

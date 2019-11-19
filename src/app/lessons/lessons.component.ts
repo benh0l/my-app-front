@@ -6,6 +6,8 @@ import { of } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import {LessonsService} from '../shared/services/lessons.service';
 import {Group} from '../shared/interfaces/group';
+import {CustomValidatorsService} from '../shared/services/custom-validators.service';
+import {SnackBarService} from '../shared/services/snackbar.service';
 
 @Component({
   selector: 'app-lessons',
@@ -27,7 +29,7 @@ export class LessonsComponent implements OnInit {
     return this._lessons;
   }
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private _snackBarService: SnackBarService) {
     this._lessons = [];
     this._dataSource = new MatTableDataSource<Lesson>();
   }
@@ -48,6 +50,8 @@ export class LessonsComponent implements OnInit {
       .pipe(
         filter(_ => !!_)
       )
-      .subscribe(_ => this._router.navigate(['/lesson', _]));
+      .subscribe(_ => this._router.navigate(['/lesson', _]),
+        () => {this._snackBarService.open(`Couldn't navigate to the lesson page.`); }
+        );
   }
 }
