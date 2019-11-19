@@ -28,7 +28,7 @@
               <mat-select  formControlName="responsibleId" [class.mgb15]="form.get('responsibleId').dirty && form.get('responsibleId').invalid" required [disabled]="!isEditing" >
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let user of users" [value]="user.id">
-                  {{user.firstname | titlecase}} {{user.lastname | uppercase}}
+                  {{user | userName: true}}
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="form.get('responsibleId').dirty && form.get('responsibleId').hasError('required')">

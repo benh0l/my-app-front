@@ -38,6 +38,8 @@ import {SnackBarService} from './shared/services/snackbar.service';
 import {SpinnerService} from './shared/services/spinner.service';
 import { TestsComponent } from './tests/tests.component';
 import { UsersComponent } from './users/users.component';
+import { CapitalizePipe } from './shared/pipes/capitalize.pipe';
+import { UserNamePipe } from './shared/pipes/user-name.pipe';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { UsersComponent } from './users/users.component';
     ConfirmComponent,
     DialogComponent,
     UsersComponent,
+    CapitalizePipe,
+    UserNamePipe,
   ],
   entryComponents: [DialogComponent],
   imports: [
@@ -77,7 +81,7 @@ import { UsersComponent } from './users/users.component';
     MatProgressSpinnerModule,
     AppRoutingModule
   ],
-  providers: [SnackBarService, BackendService, SpinnerService],
+  providers: [SnackBarService, BackendService, SpinnerService, CapitalizePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
