@@ -16,7 +16,7 @@ export const environment = {
       allLesson: '/lesson',
       oneLesson: '/lesson/:id',
       allUser: '/user',
-      oneUser: '/user',
+      oneUser: '/user/:id',
       allTest: '/test',
       oneTest: '/test/:id'
     }

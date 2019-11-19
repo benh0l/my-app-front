@@ -7,10 +7,12 @@ export const environment = {
     endpoints: {
       allGroup: '/group',
       oneGroup: '/group/:id',
+      addUserGroup: '/group/addUser/:id',
+      deleteUserGroup: '/group/deleteUser/:id',
       allLesson: '/lesson',
       oneLesson: '/lesson/:id',
       allUser: '/user',
-      oneUser: '/user',
+      oneUser: '/user/:id',
       allTest: '/test',
       oneTest: '/test/:id'
     }
