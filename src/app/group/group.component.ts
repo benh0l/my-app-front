@@ -14,6 +14,7 @@ import {MatDialog, MatDialogRef, MatSnackBar} from '@angular/material';
 import {DialogComponent} from '../shared/dialog/dialog.component';
 import {SnackBarService} from '../shared/services/snackbar.service';
 import {SpinnerService} from '../shared/services/spinner.service';
+import {of, merge, Observable, from} from 'rxjs';
 
 @Component({
   selector: 'app-group',
@@ -28,7 +29,8 @@ export class GroupComponent implements OnInit {
   private _confirmDialog: MatDialogRef<DialogComponent>;
   private _group: Group;
   private _lessons: Lesson[];
-  private _users: User[];
+  private _users: User[]
+  private _students: User[];
   private _isCreated: boolean;
   private _isEditing: boolean;
   // private property to store form value
@@ -48,6 +50,10 @@ export class GroupComponent implements OnInit {
   }
   get users(): User[]{
     return this._users;
+  }
+
+  get students(): User[]{
+    return this._students;
   }
 
   get isCreated(): boolean{
@@ -95,48 +101,81 @@ export class GroupComponent implements OnInit {
       this._location.back();
     }
   }
+  private _fetchLessons(){
+    this._spinnerService.start();
+    this._lessonsService
+      .fetchMultiple(this._group.lessonsId).subscribe(
+      (lessons: Lesson[]) => {
+        this._lessons = lessons;
+        this._spinnerService.stop();
+      },
+      () => {
+        this._spinnerService.stop();
+        this._snackBarService.open(`Error: Couldn't load lessons from group '${this._group.id}`);
+      },
+    );
+  }
+
+  private _fetchStudents(){
+    this._spinnerService.start();
+    merge(
+      of(this._users).pipe(
+        filter(_ => !!_),
+        flatMap( _ => of(this._users))
+      ),
+      of(this._users).pipe(
+        filter(_ => !_),
+        flatMap( _ => this._usersService.fetch())
+      )
+    ).subscribe(
+      (users: User[]) => {
+        this._users = users;
+        this._students = this._users.filter(
+          user => this._group.studentsId.includes(user.id)
+        )
+        this._spinnerService.stop();
+      },
+      () => {
+        this._spinnerService.stop();
+        this._snackBarService.open(`Error: couldn't fetch students`);
+      }
+    );
+  }
+
+  private _fetchGroup(){
+    this._route.params.pipe(
+      filter(params => !!params.id),
+      flatMap(params => {
+        this._spinnerService.start();
+        return this._groupsService.fetchOne(params.id);
+      })
+    ).subscribe((group: any) => {
+        this._isCreated = true;
+        this._isEditing = false;
+        this._group = group;
+        this._form.patchValue(group);
+        this._fetchLessons();
+        this._fetchStudents();
+        this._spinnerService.stop();
+      },
+      () => {
+        this._spinnerService.stop();
+        this._snackBarService.open(`Error: Couldn't find group '${this._group.id}`);
+      }
+    );
+  }
 
   ngOnInit() {
     this._spinnerService.start();
     this._usersService.fetch().subscribe(
       (users: User[]) => {
         this._users = users;
+        this._fetchGroup();
         this._spinnerService.stop();
       },
       () => {
         this._snackBarService.open(`Couldn't access to the users list.`);
         this._spinnerService.stop();
-      }
-    );
-
-
-    this._route.params.pipe(
-      filter(params => !!params.id),
-      flatMap(params => {
-        this._spinnerService.start();
-        return this._groupsService.fetchOne(params.id);
-      }),
-      tap(_ => {this._isCreated = true; this._isEditing = false; })
-    ).subscribe((group: any) => {
-      this._group = group;
-      this._form.patchValue(group);
-
-      this._lessonsService
-      .fetchMultiple(this._group.lessonsId).subscribe(
-        (lessons: Lesson[]) => {
-          this._lessons = lessons;
-          this._spinnerService.stop();
-          },
-        () => {
-          this._spinnerService.stop();
-          this._snackBarService.open(`Error: Couldn't load lessons from group '${this._group.id}`);
-          },
-      );
-
-    },
-      () => {
-        this._spinnerService.stop();
-        this._snackBarService.open(`Error: Couldn't find group '${this._group.id}`);
       }
     );
   }
