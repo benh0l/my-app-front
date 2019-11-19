@@ -52,8 +52,6 @@ export class TestComponent implements OnInit {
   }
 
   set isCreated(_ : boolean){
-    if(_)
-      this.isEditing = true;
     this._isCreated = _;
   }
 
@@ -71,30 +69,35 @@ export class TestComponent implements OnInit {
   }
 
   private _fetchGrades(){
-    this._spinnerService.start();
     merge(
       of(this._users).pipe(
         filter(_ => !!_),
-        flatMap( _ => of(this._users))
+        flatMap( _ => of(this._users)),
+        tap(_ => {this._spinnerService.start(); })
       ),
       of(this._users).pipe(
         filter(_ => !_),
-        flatMap( _ => this._usersService.fetch())
+        flatMap( _ => this._usersService.fetch()),
+        tap(_ => {this._spinnerService.start(); })
       )
     ).subscribe(
       (users: User[]) => {
-        this._users = users;
-        this._gradesService
-          .fetchMultiple(this._test.gradesId).subscribe(
-          (grades: Grade[]) => {
-            this._grades = grades;
-            this._spinnerService.stop();
-          },
-          () => {
-            this._spinnerService.stop();
-            this._snackBarService.open(`Error: Couldn't load grades from test '${this._test.id}`);
-          },
-        );
+        if(this._test.gradesId.length > 0) {
+          this._users = users;
+          this._gradesService
+            .fetchMultiple(this._test.gradesId).subscribe(
+            (grades: Grade[]) => {
+              this._grades = grades;
+              this._spinnerService.stop();
+            },
+            () => {
+              this._spinnerService.stop();
+              this._snackBarService.open(`Error: Couldn't load grades from test '${this._test.id}`);
+            },
+          );
+        }else{
+          this._spinnerService.stop();
+        }
       },
       () => {
         this._spinnerService.stop();

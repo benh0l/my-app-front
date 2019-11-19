@@ -61,8 +61,6 @@ export class GroupComponent implements OnInit {
   }
 
   set isCreated(_ : boolean){
-    if(_)
-      this.isEditing = true;
     this._isCreated = _;
   }
 
@@ -150,7 +148,8 @@ export class GroupComponent implements OnInit {
         return this._groupsService.fetchOne(params.id);
       })
     ).subscribe((group: any) => {
-        this.isCreated = true;
+        this._isCreated = true;
+        this._isEditing = false;
         this._group = group;
         this._form.patchValue(group);
         this._fetchLessons();
