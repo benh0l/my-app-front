@@ -14,12 +14,15 @@ import {SnackBarService} from '../shared/services/snackbar.service';
 import { Location } from '@angular/common';
 import {SpinnerService} from '../shared/services/spinner.service';
 import {DialogComponent} from '../shared/dialog/dialog.component';
+import {UsersService} from '../shared/services/users.service';
+import {User} from '../shared/interfaces/user';
+import {Group} from '../shared/interfaces/group';
 
 @Component({
   selector: 'app-lesson',
   templateUrl: './lesson.component.html',
   styleUrls: ['./lesson.component.css'],
-  providers: [LessonsService, TestsService, CustomValidatorsService, MatDialog]
+  providers: [LessonsService, GroupsService, UsersService, TestsService, CustomValidatorsService, MatDialog]
 })
 export class LessonComponent implements OnInit {
   public readonly VIEW_WATCH = 'watch';
@@ -35,8 +38,10 @@ export class LessonComponent implements OnInit {
   private _isEditing: boolean;
   private readonly _form: FormGroup;
   private _tests: Test[];
+  private _users: User[];
+  private _groups: Group[];
 
-  constructor(private _router: Router, private _lessonsService: LessonsService, private _testsService: TestsService, private _route: ActivatedRoute, private _customValidatorsService: CustomValidatorsService, private _snackBarService: SnackBarService, private _spinnerService: SpinnerService, private _location: Location, private _dialog: MatDialog) {
+  constructor(private _router: Router, private _lessonsService: LessonsService, private _usersService: UsersService, private _groupsService: GroupsService, private _testsService: TestsService, private _route: ActivatedRoute, private _customValidatorsService: CustomValidatorsService, private _snackBarService: SnackBarService, private _spinnerService: SpinnerService, private _location: Location, private _dialog: MatDialog) {
     this._dialogStatus = this.DIALOG_INACTIVE;
     this._lesson = {} as Lesson;
     this._isCreated = false;
@@ -74,7 +79,14 @@ export class LessonComponent implements OnInit {
     return this._tests;
   }
 
+  get users(): User[]{
+    return this._users;
+  }
 
+  get groups(): Group[]{
+    return this._groups;
+  }
+  
   set isEditing(_ : boolean){
     this._isEditing = _;
   }
@@ -103,6 +115,30 @@ export class LessonComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._spinnerService.start();
+    this._usersService.fetch().subscribe(
+      (users: User[]) => {
+        this._users = users;
+        this._spinnerService.stop();
+      },
+      () => {
+        this._snackBarService.open(`Couldn't access to the users list.`);
+        this._spinnerService.stop();
+      }
+    );
+
+    this._spinnerService.start();
+    this._groupsService.fetch().subscribe(
+      (groups: Group[]) => {
+        this._groups = groups;
+        this._spinnerService.stop();
+      },
+      () => {
+        this._snackBarService.open(`Couldn't access to the groups list.`);
+        this._spinnerService.stop();
+      }
+    );
+
     this._spinnerService.start();
     this._route.params.pipe(
       filter(params => !!params.id),
