@@ -91,5 +91,14 @@
       <app-lessons *ngIf="!!lessons" [lessons]="lessons">
       </app-lessons>
     </mat-card-content>
+
+    <mat-card-header *ngIf="isCreated">
+      <mat-card-title>Users</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <app-users *ngIf="!!users" [users]="users" (remove)="onRemove($event)" >
+      </app-users>
+    </mat-card-content>
+
   </mat-card>
 </section>

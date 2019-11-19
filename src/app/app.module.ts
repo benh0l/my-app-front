@@ -37,6 +37,7 @@ import { DialogComponent } from './shared/dialog/dialog.component';
 import {SnackBarService} from './shared/services/snackbar.service';
 import {SpinnerService} from './shared/services/spinner.service';
 import { TestsComponent } from './tests/tests.component';
+import { UsersComponent } from './users/users.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { TestsComponent } from './tests/tests.component';
     TestsComponent,
     ConfirmComponent,
     DialogComponent,
+    UsersComponent,
   ],
   entryComponents: [DialogComponent],
   imports: [

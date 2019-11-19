@@ -161,8 +161,7 @@ export class GroupComponent implements OnInit {
     });
   }
 
-  test(){
-    console.log('TESST');
+  onRemove(){
   }
 
   delete() {
