@@ -1,1 +1,62 @@
-<p>grade works!</p>
+<section>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title>Group information</mat-card-title>
+      <mat-card-subtitle><span *ngIf="isCreated" class="">#{{grade.id}}</span></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <form novalidate [formGroup]="form">
+        <mat-grid-list cols="2" rowHeight="100px">
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field>
+              <mat-label>Test</mat-label>
+              <mat-select  formControlName="testId" [class.mgb15]="form.get('userId').dirty && form.get('userId').invalid" required [disabled]="!isEditing" >
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let user of users" [value]="user.id">
+                  {{ user | userName: false}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('userId').dirty && form.get('userId').hasError('userId')">
+                Test is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field>
+              <mat-label>Test</mat-label>
+              <mat-select  formControlName="testId" [class.mgb15]="form.get('testId').dirty && form.get('testId').invalid" required [disabled]="!isEditing" >
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let test of tests" [value]="test.id">
+                  {{test.name}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('testId').dirty && form.get('testId').hasError('required')">
+                Test is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+          </mat-grid-tile>
+        </mat-grid-list>
+      </form>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button *ngIf="!isEditing && isCreated" mat-fab (click)="_isEditing = true">
+        <mat-icon svgIcon="icon-edit" aria-hidden="false" aria-label="Edit"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing" mat-fab (click)="save(form.value);">
+        <mat-icon svgIcon="icon-check" aria-hidden="false" aria-label="Confirm"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isEditing" mat-fab (click)="cancel();">
+        <mat-icon svgIcon="icon-close" aria-hidden="false" aria-label="Cancel"></mat-icon>
+      </button>
+      <button mat-button *ngIf="isCreated" mat-fab (click)="delete()">
+        <mat-icon svgIcon="icon-delete" aria-hidden="false" aria-label="Delete"></mat-icon>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</section>
