@@ -24,9 +24,10 @@ export class GradesService {
   }
 
   fetchMultiple(ids: string[]): Observable<Grade[]> {
-    return forkJoin(from(ids).pipe(
-      mergeMap( id => this.fetchOne(id))
-    ));
+    let observables = [];
+    for(var i = 0; i < ids.length; i++)
+      observables.push(this.fetchOne(ids[i]));
+    return forkJoin(observables);
   }
 
   create(grade: Grade): Observable<any> {

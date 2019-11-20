@@ -21,9 +21,10 @@ export class UsersService {
   }
 
   fetchMultiple(ids: string[]): Observable<User[]> {
-    return forkJoin(from(ids).pipe(
-      mergeMap( id => this.fetchOne(id))
-    ));
+    let observables = [];
+    for(var i = 0; i < ids.length; i++)
+      observables.push(this.fetchOne(ids[i]));
+    return forkJoin(observables);
   }
 
   fetchOne(id: string): Observable<User> {
