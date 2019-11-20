@@ -34,6 +34,13 @@ export class AppComponent {
       });
   }
 
+  konami() {
+    let audio = new Audio();
+    audio.src = '/assets/sound/rickroll.mp3';
+    audio.load();
+    audio.play();
+  }
+
   get isLoading(): boolean{
     return this._isLoading;
   }
