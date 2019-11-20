@@ -88,10 +88,11 @@ export class GroupComponent implements OnInit {
       );
     } else {
       this._groupsService.create(group).subscribe(
-        () => {this._snackBarService.open(`Created group with success.`); },
+        (_) => {
+          this._snackBarService.open(`Created group with success.`);
+          this._router.navigate(['/group', _.id]); },
         () => { this._snackBarService.open(`Couldn't create the group.`); },
         () =>{
-          //this._router.navigate(['/group', group.id]);
         }
       );
     }
