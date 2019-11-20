@@ -17,13 +17,14 @@ import {UsersService} from '../shared/services/users.service';
 })
 export class UsersComponent implements OnInit {
   private _users: User[];
+  private _isInit: boolean = false;
   private _dataSource: MatTableDataSource<User>;
   private readonly _remove$: EventEmitter<User>;
 
   @Input()
   set users(users: User[]){
-    console.log("USERS",users);
     this._users = users;
+    this._isInit = true;
     this._dataSource.data = this._users;
   }
 
@@ -42,6 +43,8 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    if(this._isInit)
+      return;
     this._spinnerService.start();
     this._usersService
       .fetch().subscribe((users: User[]) => this._users = users,
@@ -54,6 +57,7 @@ export class UsersComponent implements OnInit {
         this._spinnerService.stop();
       }
     );
+    this._isInit = true;
   }
 
   applyFilter(filterValue: string){

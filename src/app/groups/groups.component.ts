@@ -86,9 +86,11 @@ export class GroupsComponent implements OnInit {
         )
       )
       .subscribe(
-        () => {
+        (deletedId) => {
+          this._groups = this._groups.filter(group => group.id != deletedId)
           this._spinnerService.stop();
-          this._snackBarService.open(`Deleted with success.`); },
+          this._snackBarService.open(`Deleted with success.`);
+          },
         () => {
           this._dialogStatus = this.DIALOG_INACTIVE;
           this._spinnerService.stop();

@@ -88,19 +88,29 @@
       <mat-card-title>Lessons</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <app-lessons *ngIf="!!lessons" [lessons]="lessons">
+      <app-lessons *ngIf="isCreated && !!lessons" [lessons]="lessons">
       </app-lessons>
       <span *ngIf="!lessons">No lesson for the moment.</span>
     </mat-card-content>
+    <mat-card-actions align="end" *ngIf="isCreated">
+      <button mat-button mat-fab>
+        <mat-icon svgIcon="icon-create" aria-hidden="false" aria-label="Add lesson" [routerLink]="['/lesson/new/'+this._group.id]"></mat-icon>
+      </button>
+    </mat-card-actions>
 
     <mat-card-header *ngIf="isCreated">
       <mat-card-title>Users</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <app-users *ngIf="!!students" [users]="students" (remove)="onRemove($event)" >
+      <app-users *ngIf="isCreated && !!students && students.length > 0" [users]="students" (remove)="onRemove($event)" >
       </app-users>
-      <span *ngIf="!students">No students for the moment.</span>
+      <span *ngIf="!students || students.length == 0">No students for the moment.</span>
     </mat-card-content>
+    <mat-card-actions align="end" *ngIf="isCreated">
+      <button mat-button mat-fab>
+        <mat-icon svgIcon="icon-add-user" aria-hidden="false" aria-label="Add user"></mat-icon>
+      </button>
+    </mat-card-actions>
 
   </mat-card>
 </section>

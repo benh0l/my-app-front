@@ -53,6 +53,7 @@ export class GroupComponent implements OnInit {
   }
 
   get students(): User[]{
+    console.log("students",this._students);
     return this._students;
   }
 
@@ -134,7 +135,7 @@ export class GroupComponent implements OnInit {
         this._users = users;
         this._students = this._users.filter(
           user => this._group.studentsId.includes(user.id)
-        )
+        );
         this._spinnerService.stop();
       },
       () => {
@@ -207,7 +208,8 @@ export class GroupComponent implements OnInit {
   onRemove(user: User){
     this._spinnerService.start();
     this._groupsService.deleteUser(this._group.id, user.id).subscribe(
-      () => {
+      (deletedId) => {
+        this._students = this._students.filter(student => student.id != deletedId)
         this._spinnerService.stop();
         this._snackBarService.open(`User was removed with success.`);
       },
