@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  appName: 'Stud\'eyes',
+  appName: 'Stud\'Eyes',
   backend: {
     protocol: 'http',
     host: '127.0.0.1',
