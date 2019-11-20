@@ -100,18 +100,22 @@ export class GroupComponent implements OnInit {
     }
   }
   private _fetchLessons(){
-    this._spinnerService.start();
-    this._lessonsService
-      .fetchMultiple(this._group.lessonsId).subscribe(
-      (lessons: Lesson[]) => {
-        this._lessons = lessons;
-        this._spinnerService.stop();
-      },
-      () => {
-        this._spinnerService.stop();
-        this._snackBarService.open(`Error: Couldn't load lessons from group '${this._group.id}`);
-      },
-    );
+    if(this._group.lessonsId.length > 0) {
+      this._spinnerService.start();
+      this._lessonsService
+        .fetchMultiple(this._group.lessonsId).subscribe(
+        (lessons: Lesson[]) => {
+          this._lessons = lessons;
+          this._spinnerService.stop();
+        },
+        () => {
+          this._spinnerService.stop();
+          this._snackBarService.open(`Error: Couldn't load lessons from group '${this._group.id}`);
+        },
+      );
+    }
+
+
   }
 
   private _fetchStudents(){
@@ -152,8 +156,8 @@ export class GroupComponent implements OnInit {
         this._isEditing = false;
         this._group = group;
         this._form.patchValue(group);
-        this._fetchLessons();
         this._fetchStudents();
+        this._fetchLessons();
         this._spinnerService.stop();
       },
       () => {

@@ -8,6 +8,7 @@ import {LessonComponent} from './lesson/lesson.component';
 import {TestComponent} from './test/test.component';
 import {UsersComponent} from './users/users.component';
 import {UserComponent} from './user/user.component';
+import {GradeComponent} from './grade/grade.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,8 @@ const routes: Routes = [
   { path: 'lesson/:id', component: LessonComponent },
   { path: 'lessons', component: LessonComponent },
   { path: 'test/:id', component: TestComponent },
+  { path: 'grade/:id', component: GradeComponent },
+  { path: 'grade/new/:testId', component: GradeComponent },
 ];
 
 

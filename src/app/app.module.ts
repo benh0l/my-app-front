@@ -41,6 +41,7 @@ import { UsersComponent } from './users/users.component';
 import { CapitalizePipe } from './shared/pipes/capitalize.pipe';
 import { UserNamePipe } from './shared/pipes/user-name.pipe';
 import { GradesComponent } from './grades/grades.component';
+import { GradeComponent } from './grade/grade.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { GradesComponent } from './grades/grades.component';
     CapitalizePipe,
     UserNamePipe,
     GradesComponent,
+    GradeComponent,
   ],
   entryComponents: [DialogComponent],
   imports: [

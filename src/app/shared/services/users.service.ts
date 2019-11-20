@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import {Observable} from 'rxjs';
-import { defaultIfEmpty, filter, map } from 'rxjs/operators';
+import {forkJoin, from, Observable} from 'rxjs';
+import {defaultIfEmpty, filter, map, mergeMap} from 'rxjs/operators';
 import {User} from '../interfaces/user';
 import {BackendService} from './backend.service';
+import {Lesson} from '../interfaces/lesson';
 
 @Injectable()
 export class UsersService {
@@ -17,6 +18,12 @@ export class UsersService {
         filter(_ => !!_),
         defaultIfEmpty([])
       );
+  }
+
+  fetchMultiple(ids: string[]): Observable<User[]> {
+    return forkJoin(from(ids).pipe(
+      mergeMap( id => this.fetchOne(id))
+    ));
   }
 
   fetchOne(id: string): Observable<User> {

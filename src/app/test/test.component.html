@@ -68,6 +68,12 @@
     <mat-card-content>
       <app-grades *ngIf="!!grades" [grades]="grades" >
       </app-grades>
+      <span *ngIf="!grades">No grades for the moment.</span>
     </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-button mat-fab [routerLink]="['/grade/new/'+_test.id]">
+        <mat-icon svgIcon="icon-add-note" aria-hidden="false" aria-label="Add grade"></mat-icon>
+      </button>
+    </mat-card-actions>
   </mat-card>
 </section>

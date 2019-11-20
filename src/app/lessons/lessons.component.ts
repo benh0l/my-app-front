@@ -8,14 +8,18 @@ import {LessonsService} from '../shared/services/lessons.service';
 import {Group} from '../shared/interfaces/group';
 import {CustomValidatorsService} from '../shared/services/custom-validators.service';
 import {SnackBarService} from '../shared/services/snackbar.service';
+import {UsersService} from '../shared/services/users.service';
+import {SpinnerService} from '../shared/services/spinner.service';
+import {User} from '../shared/interfaces/user';
 
 @Component({
   selector: 'app-lessons',
   templateUrl: './lessons.component.html',
   styleUrls: ['./lessons.component.css'],
-  providers: []
+  providers: [UsersService]
 })
 export class LessonsComponent implements OnInit {
+  private _teachers: User[];
   private _lessons: Lesson[];
   private _dataSource: MatTableDataSource<Lesson>;
 
@@ -29,7 +33,7 @@ export class LessonsComponent implements OnInit {
     return this._lessons;
   }
 
-  constructor(private _router: Router, private _snackBarService: SnackBarService) {
+  constructor(private _router: Router, private _snackBarService: SnackBarService, private _spinnerService: SpinnerService, private _usersService: UsersService) {
     this._lessons = [];
     this._dataSource = new MatTableDataSource<Lesson>();
   }
@@ -39,6 +43,33 @@ export class LessonsComponent implements OnInit {
   }
 
   ngOnInit() {
+    const teachersId = [... new Set(this._lessons.map(_ => _.teacherId))];
+    if(teachersId.length > 0) {
+      this._spinnerService.start();
+      this._usersService.fetchMultiple(teachersId).subscribe(
+        (users) => {
+          this._teachers = users;
+          this._spinnerService.stop();
+        },
+      () =>{
+          this._spinnerService.start();
+          this._snackBarService.open(`Error: Couldn't load teachers`);
+        }
+      );
+    }
+  }
+
+  getTeacher(id: string): User|string{
+    if(!this._teachers)
+      return id;
+    const result = this._teachers.reduce(function(total, teacher){
+      if(teacher.id == id)
+        return teacher;
+      return null;
+    });
+    if(!result)
+      return id;
+    return result;
   }
 
   applyFilter(filterValue: string){

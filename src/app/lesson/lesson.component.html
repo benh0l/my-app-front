@@ -72,7 +72,7 @@
         </mat-grid-list>
       </form>
     </mat-card-content>
-    <mat-card-actions>
+    <mat-card-actions align="end">
       <button mat-button *ngIf="!isEditing" mat-fab (click)="isEditing = true">
         <mat-icon svgIcon="icon-edit" aria-hidden="false" aria-label="Edit"></mat-icon>
       </button>
@@ -89,6 +89,7 @@
 
     <mat-card-content>
       <app-tests *ngIf="!!tests" [tests]="tests"></app-tests>
+      <span *ngIf="!tests">No tests for the moment.</span>
     </mat-card-content>
   </mat-card>
 </section>

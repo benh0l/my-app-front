@@ -90,6 +90,7 @@
     <mat-card-content>
       <app-lessons *ngIf="!!lessons" [lessons]="lessons">
       </app-lessons>
+      <span *ngIf="!lessons">No lesson for the moment.</span>
     </mat-card-content>
 
     <mat-card-header *ngIf="isCreated">
@@ -98,6 +99,7 @@
     <mat-card-content>
       <app-users *ngIf="!!students" [users]="students" (remove)="onRemove($event)" >
       </app-users>
+      <span *ngIf="!students">No students for the moment.</span>
     </mat-card-content>
 
   </mat-card>

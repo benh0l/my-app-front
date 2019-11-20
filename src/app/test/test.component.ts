@@ -115,6 +115,7 @@ export class TestComponent implements OnInit {
       })
     ).subscribe((test: any) => {
         this.isCreated = true;
+        this._isEditing = false;
         this._test = test;
         this._form.patchValue(test);
         this._fetchGrades();
