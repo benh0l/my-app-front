@@ -42,6 +42,18 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
+    this._spinnerService.start();
+    this._usersService
+      .fetch().subscribe((users: User[]) => this._users = users,
+      () => {
+        this._snackBarService.open(`Couldn't access to the users list.`);
+        this._spinnerService.stop();
+      },
+      () => {
+        this._dataSource.data = this._users;
+        this._spinnerService.stop();
+      }
+    );
   }
 
   applyFilter(filterValue: string){
