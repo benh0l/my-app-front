@@ -12,14 +12,30 @@
             [rowspan]="'1'">
             <mat-form-field>
               <mat-label>Test</mat-label>
-              <mat-select  formControlName="testId" [class.mgb15]="form.get('userId').dirty && form.get('userId').invalid" required [disabled]="!isEditing" >
+              <mat-select  formControlName="testId" [class.mgb15]="form.get('testId').dirty && form.get('testId').invalid" required [disabled]="!isEditing" >
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let test of tests" [value]="test.id">
+                  {{test.title}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.get('testId').dirty && form.get('testId').hasError('required')">
+                Test is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile
+            [colspan]="'1'"
+            [rowspan]="'1'">
+            <mat-form-field>
+              <mat-label>User</mat-label>
+              <mat-select  formControlName="userId" [class.mgb15]="form.get('userId').dirty && form.get('userId').invalid" required [disabled]="!isEditing" >
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let user of users" [value]="user.id">
                   {{ user | userName: false}}
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="form.get('userId').dirty && form.get('userId').hasError('userId')">
-                Test is <strong>required</strong>
+                User is <strong>required</strong>
               </mat-error>
             </mat-form-field>
 
@@ -27,20 +43,20 @@
           <mat-grid-tile
             [colspan]="'1'"
             [rowspan]="'1'">
-            <mat-form-field>
-              <mat-label>Test</mat-label>
-              <mat-select  formControlName="testId" [class.mgb15]="form.get('testId').dirty && form.get('testId').invalid" required [disabled]="!isEditing" >
-                <mat-option>--</mat-option>
-                <mat-option *ngFor="let test of tests" [value]="test.id">
-                  {{test.name}}
-                </mat-option>
-              </mat-select>
-              <mat-error *ngIf="form.get('testId').dirty && form.get('testId').hasError('required')">
-                Test is <strong>required</strong>
+            <mat-form-field class="full-width" [class.mgb15]="form.get('value').dirty && form.get('value').invalid">
+              <input matInput placeholder="Value" type="number" formControlName="value" min="0" max="20" required name="value" [attr.disabled]="isEditing ? null: ''" />
+              <mat-error *ngIf="form.get('value').dirty && form.get('value').hasError('required')">
+                Value is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('value').dirty && form.get('value').hasError('min')">
+                Value is <strong>0 min</strong>
+              </mat-error>
+              <mat-error *ngIf="form.get('value').dirty && form.get('value').hasError('max')">
+                Value is <strong>20 max</strong>
               </mat-error>
             </mat-form-field>
-
           </mat-grid-tile>
+
         </mat-grid-list>
       </form>
     </mat-card-content>

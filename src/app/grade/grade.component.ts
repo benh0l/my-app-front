@@ -38,6 +38,14 @@ export class GradeComponent implements OnInit {
     this._form = this._buildForm();
   }
 
+
+  get tests(): Test[]{
+    return this._tests;
+  }
+  get users(): User[]{
+    return this._users;
+  }
+
   private _fetchTests(){
     this._spinnerService.start();
     merge(
@@ -128,8 +136,7 @@ export class GradeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this._fetchTests();
-    this._fetchUsers();
+    this._fetchGrade();
   }
 
   get form(): FormGroup {
