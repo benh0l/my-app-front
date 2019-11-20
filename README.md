@@ -1,26 +1,35 @@
-# MyAppFront
+# Stud'Eyes App Front
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.6.
+Développeurs : Thierry Lacoste & Benoît Holzer
 
-## Development server
+## Déployer le projet
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+lien vers la partie back du projet : https://github.com/benh0l/project-app-back
 
-## Code scaffolding
+Afin de déployer le projet, veuillez cloner le dépôt :
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+`$ git clone https://github.com/benh0l/my-app-front.git`
 
-## Build
+Ensuite exécutez ces commandes :
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+`$ npm install -g npm@latest
+$ npm install -g yarn
+$ yarn global add @angular/cli`
 
-## Running unit tests
+Rendez vous à la racine du projet que vous avez cloné :
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+`$ ng config --global cli.packageManager yarn
+$ yarn install`
 
-## Running end-to-end tests
+## Exécuter le projet
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+Utilisez la commande `yarn run start` pour lancer le serveur. 
+Rendez-vous à l'adresse suivante : localhost:4200 sur votre navigateur internet.
+La page d'acceuil doit s'afficher.
+
+Afin d'utiliser l'application correctement n'oubliez pas de déployer la partie back-end : 
+https://github.com/benh0l/project-app-back
 
 ## Further help
 
