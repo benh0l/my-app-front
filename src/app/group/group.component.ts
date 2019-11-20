@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {filter, flatMap, map, tap} from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Location } from '@angular/common';
 import { Group } from '../shared/interfaces/group';
 import {GroupsService} from '../shared/services/groups.service';
@@ -36,7 +36,7 @@ export class GroupComponent implements OnInit {
   // private property to store form value
   private readonly _form: FormGroup;
 
-  constructor(private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location, private _dialog: MatDialog, private _snackBarService: SnackBarService, private _spinnerService: SpinnerService) {
+  constructor(private _router: Router, private _route: ActivatedRoute, private _groupsService: GroupsService, private _lessonsService: LessonsService, private _usersService: UsersService, private _customValidatorsService: CustomValidatorsService, private _location: Location, private _dialog: MatDialog, private _snackBarService: SnackBarService, private _spinnerService: SpinnerService) {
     this._dialogStatus = this.DIALOG_INACTIVE;
     this._group = {} as Group;
     this.isCreated = false;
@@ -90,7 +90,9 @@ export class GroupComponent implements OnInit {
       this._groupsService.create(group).subscribe(
         () => {this._snackBarService.open(`Created group with success.`); },
         () => { this._snackBarService.open(`Couldn't create the group.`); },
-        () =>{this._isEditing = false;}
+        () =>{
+          //this._router.navigate(['/group', group.id]);
+        }
       );
     }
   }

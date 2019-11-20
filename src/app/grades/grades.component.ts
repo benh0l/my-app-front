@@ -16,7 +16,7 @@ import {ActivatedRoute, Router} from '@angular/router';
   selector: 'app-grades',
   templateUrl: './grades.component.html',
   styleUrls: ['./grades.component.css'],
-  provider: [GradesService]
+  providers: [GradesService]
 })
 export class GradesComponent implements OnInit {
   private readonly  DIALOG_ACTIVE : string = 'active';
