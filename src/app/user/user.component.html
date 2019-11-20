@@ -23,7 +23,6 @@
           <mat-grid-tile
             [colspan]="'1'"
             [rowspan]="'1'">
-            <mat-form-field>
               <mat-form-field class="full-width" [class.mgb15]="form.get('lastname').dirty && form.get('lastname').invalid">
                 <input matInput placeholder="lastname" formControlName="lastname" minlength="3" required name="lastname" [attr.disabled]="isEditing ? null: ''" />
                 <mat-error *ngIf="form.get('lastname').dirty && form.get('lastname').hasError('required')">
@@ -33,7 +32,6 @@
                   Lastname is <strong>3 chars min</strong>
                 </mat-error>
               </mat-form-field>
-            </mat-form-field>
 
           </mat-grid-tile>
           <mat-grid-tile
