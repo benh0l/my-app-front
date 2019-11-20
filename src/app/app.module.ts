@@ -42,6 +42,7 @@ import { CapitalizePipe } from './shared/pipes/capitalize.pipe';
 import { UserNamePipe } from './shared/pipes/user-name.pipe';
 import { GradesComponent } from './grades/grades.component';
 import { GradeComponent } from './grade/grade.component';
+import { KonamiModule } from 'ngx-konami';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { GradeComponent } from './grade/grade.component';
     MatSelectModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
-    AppRoutingModule
+    AppRoutingModule,
+    KonamiModule
   ],
   providers: [SnackBarService, BackendService, SpinnerService, CapitalizePipe],
   bootstrap: [AppComponent]
