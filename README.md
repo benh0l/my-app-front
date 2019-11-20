@@ -13,18 +13,23 @@ Afin de déployer le projet, veuillez cloner le dépôt :
 
 Ensuite exécutez ces commandes :
 
-`$ npm install -g npm@latest
-$ npm install -g yarn
-$ yarn global add @angular/cli`
+`$ npm install -g npm@latest`
+
+`$ npm install -g yarn`
+
+`$ yarn global add @angular/cli`
+
 
 Rendez vous à la racine du projet que vous avez cloné :
 
-`$ ng config --global cli.packageManager yarn
-$ yarn install`
+`$ ng config --global cli.packageManager yarn`
+
+`$ yarn install`
 
 ## Exécuter le projet
 
 Utilisez la commande `yarn run start` pour lancer le serveur. 
+
 Rendez-vous à l'adresse suivante : localhost:4200 sur votre navigateur internet.
 La page d'acceuil doit s'afficher.
 
