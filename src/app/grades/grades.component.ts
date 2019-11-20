@@ -52,13 +52,13 @@ export class GradesComponent implements OnInit {
     this._dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  goToGrade(groupId: string){
-    of(groupId)
+  goToGrade(gradeId: string){
+    of(gradeId)
       .pipe(
         filter(_ => !!_)
       )
       .subscribe(
-        _ => this._router.navigate(['/group', _]),
+        _ => this._router.navigate(['/grade', _]),
         () => { this._snackBarService.open(`Couldn't navigate to the group page.`); }
       );
   }

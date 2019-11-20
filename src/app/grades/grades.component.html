@@ -26,14 +26,11 @@
         <button mat-icon-button matTooltip="Click to view" class="iconbutton" color="primary" (click)="goToGrade( element.id)">
           <mat-icon aria-label="View">View</mat-icon>
         </button>
-        <button mat-icon-button matTooltip="Click to delete" class="iconbutton" color="primary"(click)="delete(element)">
-          <mat-icon aria-label="Delete">Delete</mat-icon>
-        </button>
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="['id', 'userId', 'value']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['id', 'userId', 'value'];"></tr>
+    <tr mat-header-row *matHeaderRowDef="['id', 'userId', 'value', 'actions']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['id', 'userId', 'value', 'actions'];"></tr>
   </table>
 </section>
 
